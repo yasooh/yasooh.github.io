@@ -1,0 +1,1695 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>面试准备 | Hexo</title><meta name="keywords" content="面试"><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="JAVA内存模型这里理解清楚，后面畅通无阻 首先说线程私有的 程序计数器：记住下一条指令的执行地址，一遍阻塞恢复后找得到继续的位置，或这时解释器将字节码转为机器码交给cpu执行完后再回来找下一行的标记 虚拟机栈，也就是栈：这个就是每个线程运行所需要的内存空间，里面是一个个的栈帧，每个栈帧呢对应每次方法调用时所占的内存，这里呢GC是不管的，调用完弹出自动回收。方法内的局部变量呢，是线程安全的，因为这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试准备">
+<meta property="og:url" content="http://example.com/2022/09/01/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JAVA内存模型这里理解清楚，后面畅通无阻 首先说线程私有的 程序计数器：记住下一条指令的执行地址，一遍阻塞恢复后找得到继续的位置，或这时解释器将字节码转为机器码交给cpu执行完后再回来找下一行的标记 虚拟机栈，也就是栈：这个就是每个线程运行所需要的内存空间，里面是一个个的栈帧，每个栈帧呢对应每次方法调用时所占的内存，这里呢GC是不管的，调用完弹出自动回收。方法内的局部变量呢，是线程安全的，因为这">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-08-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-12T10:19:33.949Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/09/01/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '面试准备',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-12 18:19:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">面试准备</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-08-31T16:00:00.000Z" title="Created 2022-09-01 00:00:00">2022-09-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-10-12T10:19:33.949Z" title="Updated 2022-10-12 18:19:33">2022-10-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="面试准备"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h1><h2 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h2><p>这里理解清楚，后面畅通无阻</p>
+<p><strong>首先说线程私有的</strong></p>
+<p><strong>程序计数器：</strong>记住下一条指令的执行地址，一遍阻塞恢复后找得到继续的位置，或这时解释器将字节码转为机器码交给cpu执行完后再回来找下一行的标记</p>
+<p><strong>虚拟机栈，也就是栈：</strong>这个就是每个线程运行所需要的内存空间，里面是一个个的栈帧，每个栈帧呢对应每次方法调用时所占的内存，这里呢<strong>GC</strong>是不管的，调用完弹出自动回收。方法内的局部变量呢，是线程安全的，因为这些变量是线程私有的，但是如果，局部变量引用了对象，逃离了方法的作用范围，需要考虑线程安全</p>
+<p><strong>本地方法栈：</strong>Java代码调用一些native方法，用到的内存，比如wait、notify、clone等</p>
+<p><strong>接下来说线程共享的区域</strong></p>
+<p><strong>堆：</strong>通过new创建的对象都使用堆内存，这里有GC机制，内存不足报<strong>OutOfMemoryError:Java heap space</strong></p>
+<p><strong>方法区：</strong>存了跟类结构相关的信息，比如<strong>成员变量</strong>、方法数据、<strong>成员方法和构造器方法的代码</strong>，还有<strong>运行时常量池</strong>，方法区呢，逻辑上是堆的一部分！实现方式呢，不太一样，比如1.7之前在永久代，之后在元空间，元空间呢（<strong>串池还在堆里面</strong>），直接用的是本地内存，也就是OS的内存，而不是堆的内存，方法区内存不足会报<strong>OutOfMemoryError : Metaspace</strong></p>
+<h2 id="字节码"><a href="#字节码" class="headerlink" title="字节码"></a>字节码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -v Helloworld.class</span><br></pre></td></tr></table></figure>
+
+<p>类的基本信息，常量池，类方法定义，包含了虚拟机指令</p>
+<h2 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h2><p>字节码中的一张表，jvm指令根据这张表，找到要执行的类名、方法名、参数类型等信息</p>
+<p><strong>运行时常量池</strong>，当该类被加载，常量池信息就会放入运行时常量池，并把里面符号地址变为真实地址</p>
+<p>常量池中的字符串仅仅是符号，在字节码中，首次用到才变为对象，串池机制其实就是避免重复创建字符串对象，<strong>字符串常量拼接</strong>的原理是编译器的优化，<strong>字符串拼接</strong>的原理是StringBuilder</p>
+<p>串池之前在永久代中，需要fullgc才会触发，导致串池的回收效率不高，进而导致永久代内存不足，1.7开始就转移到堆了，minorgc就出发垃圾回收，减轻了内存压力</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>bytebuffer 用的是直接内存，直接内存就是OS划出的一块内存，java代码可以直接访问，溢出报错<strong>OutOfMemoryError:Direct buffer memory</strong>，常用于NIO操作，用于数据缓冲区，分配回收成本较高，读写性能较高，不受JVM内存回收管理，释放用的是<strong>Unsafe</strong>类，一般由JVM调用</p>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><p>Java的优势：面向对象、基于JVM平台无关性、支持多线程（C++必须调用OS的多线程功能）、编译与解释共存</p>
+<h2 id="JDK和JRE"><a href="#JDK和JRE" class="headerlink" title="JDK和JRE"></a>JDK和JRE</h2><p>Jdk包含了Jre，还包括了编译器和工具，能够创建和编译程序。</p>
+<p>Jre是Java运行时环境，是运行已经编译的Java程序的，包括了JVM，Java类库等，不能创建新程序</p>
+<h2 id="JAVA和C"><a href="#JAVA和C" class="headerlink" title="JAVA和C++"></a>JAVA和C++</h2><p>无指针、类单继承（但是有接口）、GC、只支持方法重载</p>
+<h2 id="成员变量和局部变量"><a href="#成员变量和局部变量" class="headerlink" title="成员变量和局部变量"></a>成员变量和局部变量</h2><p>首先，成员变量可以被public、private、static<strong>等修饰符修饰</strong>，但是都可以被final修饰。其次，成员变量如果被static修饰，那么就是<strong>存在</strong>方法区的，否则就存在堆中，局部变量是存在栈中，当然，如果是引用类型的局部变量，其实还是存在堆中。然后就是<strong>生存时间</strong>了，成员变量随着对象的，局部变量随着方法的调用的。最后就是<strong>默认值</strong>，成员变量有默认值，局部变量不会自动复制，当然如果被final修饰的话，就要显示的赋值了</p>
+<h2 id="静态方法为什么不能调用非静态成员"><a href="#静态方法为什么不能调用非静态成员" class="headerlink" title="静态方法为什么不能调用非静态成员"></a>静态方法为什么不能调用非静态成员</h2><p>静态方法属于类，在类加载的时候就会分配内存，非静态成员属于对象，那么在非静态成员存在之前静态方法就存在了，这就是原因</p>
+<h2 id="重载和重写"><a href="#重载和重写" class="headerlink" title="重载和重写"></a>重载和重写</h2><p><strong>overload</strong>发生在同一个类或是父子类间，方法名必须相同，别的都可以不同，<strong>overwrite</strong>就是子类对父类可以访问方法的<strong>实现过程进行重复编写</strong>，所以方法名、形参列表必须相同，返回值类型只能相等（基本数据类型、void）或更小（引用类型），抛出的异常只能更小，访问的权限只能更大或相等</p>
+<h2 id="包装和基本类型"><a href="#包装和基本类型" class="headerlink" title="包装和基本类型"></a>包装和基本类型</h2><p>包装可用泛型、默认值为null、存在堆（如果没有跳出方法，那就在栈中，<strong>逃逸分析</strong>）中，基本类型的局部变量在栈的局部变量表中，成员变量存在堆中，static修饰的存在方法区中</p>
+<h2 id="包装类型的缓存机制"><a href="#包装类型的缓存机制" class="headerlink" title="包装类型的缓存机制"></a>包装类型的缓存机制</h2><p>Byte、Short、Integer、Long这四种有[-128~127]的缓存数据，Character有[0,127]的缓存数据，Boolean直接返回true或false</p>
+<h2 id="对象实体和对象引用"><a href="#对象实体和对象引用" class="headerlink" title="对象实体和对象引用"></a>对象实体和对象引用</h2><p>对象实体在堆内存中，对象引用在栈内存中</p>
+<h2 id="面向对象三大特征"><a href="#面向对象三大特征" class="headerlink" title="面向对象三大特征"></a>面向对象三大特征</h2><p><strong>封装</strong>，get，set，private int id；<strong>继承</strong>；<strong>多态</strong>，就是一个对象有多重状态，具体表现是父类的引用指向子类的实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list=<span class="keyword">new</span> <span class="title class_">Arraylist</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<h2 id="接口和抽象类"><a href="#接口和抽象类" class="headerlink" title="接口和抽象类"></a>接口和抽象类</h2><p>它们都不能实例化、都可以包含抽象方法、都可以有默认的实现方法，接口里（default)</p>
+<p>接口主要是对类的行为进行约束，抽象类主要是代码复用，接口里面的成员变量只能是public static final修饰，不能修改必须有初始值，抽象类中可以在子类中被重新定义</p>
+<h2 id="深、浅、引用拷贝"><a href="#深、浅、引用拷贝" class="headerlink" title="深、浅、引用拷贝"></a>深、浅、引用拷贝</h2><p><strong>深</strong>，完全复制整个对象，包括对象所包含的内部对象，<strong>浅</strong>，在堆上创建一个新对象，但是如果里面的属性是引用类型的话，就只复制内部对象的引用地址，<strong>引用</strong>，没有创建对象，就是两个引用指向同一个对象</p>
+<h2 id="x3D-x3D-和equals（）"><a href="#x3D-x3D-和equals（）" class="headerlink" title="&#x3D;&#x3D;和equals（）"></a>&#x3D;&#x3D;和equals（）</h2><p>&#x3D;&#x3D;对基本数据类型来说比较的是值，对引用类型比的是内存地址，equals（）不重写比的也是地址，重写的话就必的是对象的内容，String的equals()是被重写过的</p>
+<h2 id="hashCode（）"><a href="#hashCode（）" class="headerlink" title="hashCode（）"></a>hashCode（）</h2><p>获取哈希码，作用是确定对象在哈希表中的位置</p>
+<p>重写equals方法，必须重写hashcode方法，因为，两个对象相等，hashcode必须相等。那么如果没重写，在hashmap中可能会有相同的key，与容器的思想不符。</p>
+<h2 id="String、StringBuilder、StringBuffer"><a href="#String、StringBuilder、StringBuffer" class="headerlink" title="String、StringBuilder、StringBuffer"></a>String、StringBuilder、StringBuffer</h2><p>String是不可变的，<strong>final修饰的类不能继承，修饰的方法不能重写，修饰的变量是基本类型不能改变值，是引用类型不能指向其他对象，</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">String</span> <span class="keyword">implements</span> <span class="title class_">java</span>.io.Serializable, Comparable&lt;String&gt;, CharSequence &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">char</span> value[];</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而不可变的原因是，<strong>上面的数组是final修饰且为私有的，私有的且String没有暴露改变这个字符串的方法， String类被final修饰，保证了子类破坏String的不可变</strong></p>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>增强代码的可读性和稳定性</p>
+<p>泛型类、泛型接口、泛型方法</p>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>很多框架都用到了反射的原理，给了我们在运行时分析、操作类的能力，但是也增加了安全性问题，框架中大量使用了动态代理，而动态代理也依赖反射</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DebugInvocationHandler</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 代理类中的真实对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DebugInvocationHandler</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> InvocationTargetException, IllegalAccessException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;before method &quot;</span> + method.getName());</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args);</span><br><span class="line">        System.out.println(<span class="string">&quot;after method &quot;</span> + method.getName());</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;		</span><br></pre></td></tr></table></figure>
+
+<h2 id="注解的解析方法"><a href="#注解的解析方法" class="headerlink" title="注解的解析方法"></a>注解的解析方法</h2><p>编译期直接扫描，编译器在编译java代码的时候扫描对应的注解并处理，例如Override，在编译的时候检测当前的方法是否重写了父类的方法</p>
+<p>运行时通过反射处理，比如Spring的@Value，@Component</p>
+<h2 id="序列化反序列化"><a href="#序列化反序列化" class="headerlink" title="序列化反序列化"></a>序列化反序列化</h2><p>需要持久化java对象，比如将java对象保存在文件中，或是网络传输java对象，都需要用到序列化</p>
+<p>序列化就是将数据结构或对象转为二进制字节流的过程</p>
+<p>反序列化就是上述的反过程</p>
+<p>那么，序列化的主要目的就是通过网络传输对象，或是对象存储到文件中、数据库、内存中</p>
+<p><strong>实际开发中</strong></p>
+<ul>
+<li>对象在进行网络传输之前需要先被序列化，接收到序列化对象之后需要再进行反序列化</li>
+<li>对象存到Redis中，需要序列化，读出来需要反序列化</li>
+</ul>
+<p>序列化和反序列化的协议在七层模型中属于<strong>表示层（负责数据处理，编解码，解压缩，解加密）</strong>，在TCPIP四层模型中，OSI的会话层、表示层、应用层都是应用层</p>
+<h2 id="transient"><a href="#transient" class="headerlink" title="transient"></a>transient</h2><p>被此关键字修饰的变量不会被序列化，反序列化时会被置成默认值（int 0），那么用static修饰的变量因为不属于对象，所以不会被序列化</p>
+<h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><p>输入和输出，数据输入到计算机内存的过程就是输入，输出到外部存储，包括数据库，文件，远程主机就是输出，这两个过程就叫IO流</p>
+<p>根据数据的处理方式又分为字节字符流 <strong>入</strong> InputStream&#x2F;Reader，<strong>出</strong> OutputStream&#x2F;Writer</p>
+<p>不管是文件读写还是网络收发，<strong>信息的最小存储单元都是字节</strong>，还要分为字节字符原因是，字符流是JVM将字节转化得到的，这是一个耗时的过程，如果不知道编码类型的话，使用字节流的过程易出现乱码问题</p>
+<p><strong>从计算机结构的视角来看的话</strong>，IO描述了计算机系统与外部设备之间通信的过程</p>
+<p><strong>从应用程序的角度看</strong>，为保证OS的安全性，一个进程的地址空间分为<strong>用户空间和内核空间</strong>，只有内核空间才能进行系统态级别的资源有关操作，比如文件管理、进程通信、内存管理等，也就是说IO操作，必须依赖内核空间的能力。用户空间的程序不能直接访问内核空间，想要执行IO操作时，只能发起<strong>系统调用</strong>来请求OS完成，也就是说应用程序只是发起了IO操作的调用而已，具体IO的执行是由OS的内核完成的</p>
+<p>应用程序发起IO调用后</p>
+<ul>
+<li><strong>内核等待IO设备准备好数据</strong></li>
+<li><strong>内核将数据从内核空间拷贝到用户空间</strong></li>
+</ul>
+<h2 id="Java中3种常见IO模型"><a href="#Java中3种常见IO模型" class="headerlink" title="Java中3种常见IO模型"></a>Java中3种常见IO模型</h2><p>UNIX下，IO模型有五种，同步阻塞IO，同步非阻塞IO，IO多路复用，信号驱动IO和异步IO</p>
+<ol>
+<li><p>BIO（Blocking IO）</p>
+<p>属于<strong>同步阻塞IO</strong>，应用程序发起read调用后，一直阻塞，直到内核把数据拷贝到用户空间</p>
+</li>
+<li><p>NIO（Non-blocking&#x2F;New IO)</p>
+<p><strong>同步非阻塞IO模型</strong>，应用程序一直发起read调用，等待数据从内核空间拷贝至用户空间这段时间里，线程依然是阻塞的，直到拷贝完成，相比于同步阻塞IO，同步非阻塞IO通过轮询操作，避免了一直阻塞。但是存在一个问题，<strong>应用程序不断进行IO系统调用轮询数据是否准备好的过程十分消耗CPU资源</strong></p>
+<p><strong>IO多路复用模型</strong>，线程首先发起<strong>select调用</strong>，询问内核数据是否<strong>准备就绪</strong>，等内核把数据准备好了，用户线程再发起read调用，read调用的过程还是阻塞的。这样就减少了无效的系统调用，减少了对cpu资源的消耗。</p>
+<p>NIO，有一个<strong>Selector</strong>，也被称为多路复用器，通过它，用一个线程就可以管理多个客户端连接，当客户端数据到了之后，才会为其服务</p>
+</li>
+<li><p>AIO（Asynchronous IO)</p>
+<p>也就是NIO2,，是异步IO模型</p>
+<p>异步IO是基于事件和回调机制实现的，应用操作之后会返回，不堵塞，当后台处理完成，OS会通知相应的线程进行后续的操作</p>
+</li>
+</ol>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>Java容器，主要是两大接口派生而来，Collection（单一）,Map（键值对），Collection又有List，Set，Queue</p>
+<p>List呢，存储的元素是有序的，可重复的，Set是无序的，不可重复的，Queue用特定的排序规则确定先后顺序，可重复的，Map使用键值对存储，key是无序的，不可重的</p>
+<h2 id="为什么要用容器"><a href="#为什么要用容器" class="headerlink" title="为什么要用容器"></a>为什么要用容器</h2><p>当我们需要保存一组类型相同的数据的时候，我们应该就是用一个容器来保存，这个容器就是数组，但是实际开发中，数据类型是多样的，于是就有了容器。数组缺点是一旦声明后，长度不可变，类型不可变，数据有序，可重复，功能单一，集合就提高了数据存储的灵活性，还可以存映射关系的数据</p>
+<h2 id="ArrayList与LinkedList"><a href="#ArrayList与LinkedList" class="headerlink" title="ArrayList与LinkedList"></a>ArrayList与LinkedList</h2><p>首先，都不是线程安全的；ArrayList底层是一个Object类型的数组，Linkedlist底层是一个双向链表；ArrayList添加元素默认添加到尾部，指定位置添加或删除就要挪动一些元素，LinkedList，在头尾增删元素不挪位置，别处增删就要先挪动到指定位置；ArrayList通过元素的序号实现快速访问，LinkedList不支持；ArrayList空间浪费是在数组预留的空间，LinkedList浪费在单个节点要存前驱和后继元素的数据</p>
+<h2 id="ArrayList扩容机制"><a href="#ArrayList扩容机制" class="headerlink" title="ArrayList扩容机制"></a>ArrayList扩容机制</h2><p>底层是一个Object型数组，创建ArrayList对象时，<strong>如果用无参构造器，默认容量0，首次添加扩容成10</strong>，之后需要扩容按1.5倍扩容，</p>
+<p>如果是有参构造器，初始大小为传入的值，后边按1.5倍扩容</p>
+<h2 id="无序性和不可重复性"><a href="#无序性和不可重复性" class="headerlink" title="无序性和不可重复性"></a>无序性和不可重复性</h2><p>无序性是指，存储的数据在底层数组中不是按照数组索引的顺序添加，而是根据数据的哈希值决定的</p>
+<p>不可重复性指，equals方法返回false，当然要同时重写equals方法和hashcode方法</p>
+<h2 id="HashSet、LinkedHashSet、TreeSet"><a href="#HashSet、LinkedHashSet、TreeSet" class="headerlink" title="HashSet、LinkedHashSet、TreeSet"></a>HashSet、LinkedHashSet、TreeSet</h2><p>都不是线程安全的，都能保证元素唯一；HashSet底层是HashMap，底层是哈希表，适用于不需要保证元素插入和取出顺序的场景。LinkedHashSet底层是LinkedHashMap，底层是哈希表和链表，插入和取出顺序一致适用于需要插入和取出顺序一致的场景。TreeSet底层是红黑树，可定制排序，适用于需要排序的场景</p>
+<h2 id="Queue和Deque"><a href="#Queue和Deque" class="headerlink" title="Queue和Deque"></a>Queue和Deque</h2><p>一个单端队列（插入队尾，删除队首），一个双端队列（插入删除队尾，插入删除队首）</p>
+<h2 id="ArrayDeque和LinkedList"><a href="#ArrayDeque和LinkedList" class="headerlink" title="ArrayDeque和LinkedList"></a>ArrayDeque和LinkedList</h2><p>都实现了Deque接口，支持队列功能</p>
+<p>ArrayDeque基于可变长的数组和双指针实现，不支持null，1.6后才有，插入时可能存在扩容</p>
+<p>LinkedList是链表，支持null，1.2后就有，插入时申请新的空间，效率不如ArrayDeque</p>
+<h2 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h2><p>利用了二叉堆，底层是可变长的数组，非线程安全，不支持null</p>
+<p>通过元素的上浮和下沉，实现了O（logn）的时间复杂度内插删堆顶元素，默认是小顶堆，可接一个Comparator最为构造参数，定义元素优先级的先后</p>
+<h2 id="HashMap和HashTable"><a href="#HashMap和HashTable" class="headerlink" title="HashMap和HashTable"></a>HashMap和HashTable</h2><p>HashTable线程安全，HashMap效率高</p>
+<p>HashMap可存一个key为null的值，HashTable不行</p>
+<p>每次扩容不同，HashMap（初始16）上次的2倍，HashTable（初始11）上次的2倍+1</p>
+<p>HashMap底层数组+链表+红黑树，HashTable数组+链表</p>
+<h2 id="HashMap和HashSet"><a href="#HashMap和HashSet" class="headerlink" title="HashMap和HashSet"></a>HashMap和HashSet</h2><p>HashSet底层就是HashMap</p>
+<p>分别实现了Set和Map接口，存储键值对和对象，调用put和add，使用key计算hash值和使用对象计算哈希值（有点牵强，相当于都用的key）</p>
+<h2 id="HashMap和TreeMap"><a href="#HashMap和TreeMap" class="headerlink" title="HashMap和TreeMap"></a>HashMap和TreeMap</h2><p>都继承AbstractMap，TreeMap还实现了NavigableMap（对集合内元素搜索的能力）和SortedMap（对集合内元素根据键排序）接口，</p>
+<h2 id="HashSet如何检查重复"><a href="#HashSet如何检查重复" class="headerlink" title="HashSet如何检查重复"></a>HashSet如何检查重复</h2><p>根据hashcode计算hash值，确定对象要加入的位置，如果位置已经有元素了，就用euquals方法判断是不是同一个对象，如果是就加入不成功。如果那个位置没元素，就加入</p>
+<h2 id="HashMap底层实现"><a href="#HashMap底层实现" class="headerlink" title="HashMap底层实现"></a>HashMap底层实现</h2><p>底层是哈希表和链表，通过key的hashcode计算出hash值（减少碰撞），通过（n-1）&amp;hash判断当前元素存放位置是不是为空，如果为空直接加入，不为空就再判断该元素和要加入的元素的hash值以及key是否相同，如果相同直接覆盖，如果不同就跟后边的元素for循环比较，如果都不相同就把新元素添加到这条链表的最后，如果链表长&gt;&#x3D;8了，且哈希表长&gt;&#x3D;64了，就把这条链表转为红黑树，如果表长&lt;64，就去扩容哈希表</p>
+<p>哈希表的扩容，两种方式，链表的长度&gt;&#x3D;8,且表长&lt;64，阔！；每次添加完元素，无论是加在了table上还是链表上，只要到达临界值，就会扩容</p>
+<h2 id="HashMap的长度为什么是2的幂次方"><a href="#HashMap的长度为什么是2的幂次方" class="headerlink" title="HashMap的长度为什么是2的幂次方"></a>HashMap的长度为什么是2的幂次方</h2><p><strong>取余(%)操作中如果除数是 2 的幂次则等价于与其除数减一的与(&amp;)操作（也就是说 hash%length&#x3D;&#x3D;hash&amp;(length-1)的前提是 length 是 2 的 n 次方；</strong></p>
+<hr>
+<h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="内存模型-1"><a href="#内存模型-1" class="headerlink" title="内存模型"></a>内存模型</h2><p>上一部分已经说过</p>
+<p>线程私有的有程序计数器、栈、本地方法栈，线程共享的有方法区和堆</p>
+<p>在jdk8中，方法区从永久代移到了元空间，但是其中的串池留在了堆中</p>
+<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p><strong>首先，GC是在堆里面的</strong></p>
+<h3 id="如何判断对象可以回收？"><a href="#如何判断对象可以回收？" class="headerlink" title="如何判断对象可以回收？"></a>如何判断对象可以回收？</h3><h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h4><p>被其他对象引用+1，不引用-1</p>
+<h4 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h4><p>gcroot：不能被当成垃圾回收的对象，一般是一些基础类，native类，加了锁的对象，活动的线程中局部变量所引用的对象</p>
+<ol>
+<li>强引用<ul>
+<li>只有所有gcroots对象，都不通过该引用引用，该对象才能被GC</li>
+</ul>
+</li>
+<li>软引用<ul>
+<li>当GC回收完发现内存不够，再次出发GC回收软引用指向的对象</li>
+<li>可配合引用队列释放自身</li>
+</ul>
+</li>
+<li>弱引用：只要发生GC，就回收弱引用<ul>
+<li>可配合引用队列释放自身</li>
+</ul>
+</li>
+<li>虚引用<ul>
+<li>必须配和引用队列使用，主要配和ByteBuffer使用，虚引用引用的对象被GC时，自己被放入引用队列，有ReferenceHandler线程调用虚引用相关方法释放直接内存</li>
+</ul>
+</li>
+<li>终结器引用<ul>
+<li>指的是没有gcroot指向的对象，JVM自动创建终结器引用，当其引用的对象被GC时，放引用入队列，之后由一个优先级很低的线程finalizeHandler来释放，根据引用找到对象调用其finalize（），第二次GC时才能回收被引用的对象</li>
+</ul>
+</li>
+</ol>
+<h3 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h3><h4 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h4><p>标记未使用的对象，清楚未使用的对象，这样会产生内存碎片</p>
+<h4 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h4><p>整理的时候，移动内存，消除碎片，那么如果牵扯到对象的整理，对象如果有引用的话也要改变引用地址，导致速度慢</p>
+<h4 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h4><p>标记，复制，交换from和to，需要双倍的内存空间</p>
+<p>to是空的，将存活的对象复制到to空间之后，交换from和to的命名</p>
+<h3 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h3><p>总的来说，<strong>长时间使用的对象放在老年代，用完要丢弃的对象放在新生代。</strong></p>
+<p>新生代有伊甸园，幸存区from和幸存区to。</p>
+<p>​		新创建的对象放在伊甸园区，放不下了之后，触发MinorGc，是一个小的垃圾回收动作，就是沿着gcroot利用可达性分析算法，进行一次标记，然后把存活的复制到幸存区to，并将这些对象的寿命+1，在把from和to的位置交换，也就是说保证to是空的。</p>
+<p>​		接着伊甸园又满了，这时除了找伊甸园里面存活的以外，还要找幸存区存活的对象，再次的标记清除复制，新建的加入幸存区to，寿命+1，幸存区from存活的加入to，寿命再+1，再交换from和to的位置</p>
+<p>​		如此反复，如果幸存区的寿命超过一个阈值15，移到老年代</p>
+<p>​		如果新生代和老年代都满了，触发FullGc</p>
+<ul>
+<li>minorgc，引发stop the world，暂停其他线程的用户线程，防止回收时对象的地址被改变</li>
+<li>当老年代空间不足时，会尝试触发minorgc，之后辸不足，再出发fullgc。stop the world的时间更长</li>
+<li>再不行，触发outofmemory</li>
+</ul>
+<h3 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h3><p><strong>串行</strong>，是单线程的（回收的时候，其他线程停下来），适用于堆内存较小</p>
+<ul>
+<li>Serial工作在新生代用的是<strong>复制算法</strong>，SerialOld工作在老年代用的是<strong>标记加整理算法</strong>，它们是分开运行的，新生代内存不足时，Serial会完成新生代的MinorGC，老年代内存不足时，SerialOld完成老年代的FullGc</li>
+<li>发生Gc时，让线程在一个安全点停下来，然后只有一个垃圾回收线程工作</li>
+</ul>
+<p>后两种是多线程的，适用于堆内存较大，并且是多核cpu</p>
+<p><strong>吞吐量优先</strong>，让单位时间内，stw的总时间尽可能短0.2+0.2</p>
+<ul>
+<li>新生代（复制算法），老年代（标记整理）</li>
+</ul>
+<p>有一些参数，可以调整吞吐量，gctime&#x2F;总时间，gctime不能超过总时间的百分之一，如果不达标jvm会增大堆的大小，还有最大暂停毫秒数200ms</p>
+<p><strong>响应时间优先</strong>，让gc时单次stw尽可能的短0.1+0.1+0.1+0.1</p>
+<p>老年代内存不足时，先stw很短的时间，进行<strong>初始标记</strong>（列举gcroot），用户线程恢复运行，回收线程继续<strong>并发标记</strong>剩余的垃圾，再次stw进行重新标记，再次stw进行并发清理，用户线程继续运行</p>
+<h2 id="类加载和字节码"><a href="#类加载和字节码" class="headerlink" title="类加载和字节码"></a>类加载和字节码</h2><h3 id="类文件结构"><a href="#类文件结构" class="headerlink" title="类文件结构"></a>类文件结构</h3><p>有常量池、访问标识、成员变量信息、方法信息、附加属性</p>
+<h3 id="字节码指令"><a href="#字节码指令" class="headerlink" title="字节码指令"></a>字节码指令</h3><h4 id="i-和-i"><a href="#i-和-i" class="headerlink" title="i++和++i"></a>i++和++i</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> a++ + ++a + a--;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">        System.out.println(b);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个栈帧里面有局部变量表和操作数栈</p>
+<ul>
+<li>bipush 10  将10压入操作数栈，此时操作数栈10</li>
+<li>istore_1 将栈顶元素转至局部变量表槽位一对应的是a，此时操作数栈 空</li>
+<li>iload_1 将局部变量表槽位是1的值加载到操作数栈，此时操作数栈 10</li>
+<li>iinc 1,1 槽位1的数加1（直接在局部变量表的槽位上运算）</li>
+<li>此时a++已经执行完了</li>
+<li>iinc 1,1槽位1的数再加1</li>
+<li>iload_1 将局部变量表槽位是1的值加载到操作数栈，此时操作数栈12 10</li>
+<li>iadd 操作数栈弹出两个相加结果压入，此时操作数栈22</li>
+<li>iload_1 将局部变量表槽位是1的值加载到操作数栈，此时操作数栈 12 22</li>
+<li>iinc 1，-1槽位1的数-1，此时槽位一为11</li>
+<li>iadd 操作数栈弹出两个相加结果压入，此时操作数栈34</li>
+<li>istore 2 将操作数栈的栈顶转至局部变量表槽位2，对应b</li>
+<li>此时 a为11 b为34</li>
+</ul>
+<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><p>静态变量和静态代码块会被从上至小收集起来，形成一个cint方法(整个类的构造方法)，在类加载的初始化阶段会被调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo3_8_1</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">    	i = <span class="number">20</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">    	i = <span class="number">30</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="comment">///  最终结果是30</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的cinit方法字节码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>: bipush <span class="number">10</span></span><br><span class="line"><span class="number">2</span>: putstatic #<span class="number">2</span> <span class="comment">// Field i:I</span></span><br><span class="line"><span class="number">5</span>: bipush <span class="number">20</span></span><br><span class="line"><span class="number">7</span>: putstatic #<span class="number">2</span> <span class="comment">// Field i:I</span></span><br><span class="line"><span class="number">10</span>: bipush <span class="number">30</span></span><br><span class="line"><span class="number">12</span>: putstatic #<span class="number">2</span> <span class="comment">// Field i:I</span></span><br><span class="line"><span class="number">15</span>: <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>方法就是每个实例对象的构造方法，编译器会从上至下收集{}和成员变量赋值代码，形成新的构造方法init，但原始构造方法内的代码总是在最后</p>
+<p>所以下面代码的最终结果是，s3 30</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901003836972.png" alt="image-20220901003836972"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901004228951.png" alt="image-20220901004228951"></p>
+<h4 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h4><ul>
+<li>invokespecial，用栈顶的对象引用去调用对象的构造方法、私有方法、final方法，并将栈顶元素清除</li>
+<li>invokestatic，不需要对象引用，直接调用静态方法</li>
+</ul>
+<h4 id="多态原理"><a href="#多态原理" class="headerlink" title="多态原理"></a>多态原理</h4><ul>
+<li>通过栈帧中局部变量表的对象引用找到栈中的对象</li>
+<li>分析对象头，找到实际的Class</li>
+<li>Class结构中有虚方法表，它在类加载的连接阶段就已经根据方法的重写规则生成好了</li>
+<li>查表得到具体方法的具体地址</li>
+<li>执行方法的字节码</li>
+</ul>
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><p>字节码中<strong>goto</strong></p>
+<h4 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h4><h3 id="编译器处理"><a href="#编译器处理" class="headerlink" title="编译器处理"></a>编译器处理</h3><ul>
+<li><p>语法糖，就是编译阶段，自动生成和转换的一些代码</p>
+</li>
+<li><p>默认构造器，无参构造器是编译阶段自动加上的</p>
+</li>
+<li><p>自动拆装箱，编译阶段完成</p>
+</li>
+<li><p>泛型集合取值，编译之后，泛型擦除(擦除的是字节码上的泛型信息，在LocalVariableTypeTable中任保留了泛型信息)通过反射可以看得到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer x=list.get(<span class="number">0</span>);  <span class="comment">///实际是Object obj=List.get(int index);</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可变参数的替换</p>
+</li>
+<li><p>foreach循环的替换</p>
+</li>
+<li><p>switch字符串，所以swith和字符串搭配时不能为null</p>
+</li>
+<li><p>switch枚举</p>
+</li>
+<li><p>try-with-resources</p>
+</li>
+<li><p>方法重写时的桥接方法</p>
+</li>
+<li><p>匿名内部类，编译阶段转换后会生成额外的类，这也解释了匿名内部类使用局部变量时，局部变量必须是final的，如果变了，匿名内部类里的没机会再跟着一起变</p>
+</li>
+</ul>
+<h3 id="类加载阶段"><a href="#类加载阶段" class="headerlink" title="类加载阶段"></a>类加载阶段</h3><h4 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h4><ul>
+<li>将类的字节码加载入方法区中，内部采用C++的instanceKclass描述java类<ul>
+<li>重要的有_java_mirror,把Kclass暴露给java使用</li>
+<li>父类、成员变量、方法、常量池、类加载器、虚方法表、接口方法表</li>
+<li>instanceKclass在方法区里，但_java_mirror在堆中</li>
+</ul>
+</li>
+<li>会先加载父类</li>
+<li>加载和链接可交替运行</li>
+</ul>
+<p>对象头有16个字节，前8个对应着class地址，通过这个找到类对象，在元空间找到instanceKclass</p>
+<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><ul>
+<li>验证，符合jvm规范?</li>
+<li>准备，<ul>
+<li>static变量7之前存在方法区中，之后跟着类对象存在堆中</li>
+<li>static变量分配空间在准备阶段，赋值在初始化阶段</li>
+<li>final类型的基本类型和Srtring常量初始化赋值都在准备阶段</li>
+<li>final类型的引用赋值在初始化阶段</li>
+</ul>
+</li>
+<li>解析，常量池中的符号引用解析为直接引用</li>
+</ul>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>执行cinit方法</p>
+<p>类初始化是懒惰的</p>
+<p>初始化</p>
+<ul>
+<li>main方法所在类，会首先被初始化</li>
+<li>首次访问类的静态变量或方法时</li>
+<li>子类被初始化时</li>
+<li>子类访问父类的静态变量，只会触发父类的初始化</li>
+<li>Class.forName</li>
+<li>new 会导致初始化</li>
+</ul>
+<p>不会初始化</p>
+<ul>
+<li>访问static final静态常量（基本类型和字符串），在准备阶段已经完成</li>
+<li>类对象.class</li>
+<li>创建类的数组</li>
+<li>loadclass方法</li>
+<li>Class.forName参数为false时</li>
+</ul>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><h3 id="运行期优化"><a href="#运行期优化" class="headerlink" title="运行期优化"></a>运行期优化</h3><h5 id="即时编译"><a href="#即时编译" class="headerlink" title="即时编译"></a>即时编译</h5><p>逃逸分析</p>
+<p>JIT与解释器的区别</p>
+<ul>
+<li>解释器将字节码解释为机器码（所有平台通用），再次遇到还会重复解释</li>
+<li>JIT将字节码编译为机器码（根据平台类型，生成特定机器码），存入code cache，下次遇到直接执行</li>
+</ul>
+<p><strong>策略</strong>：大部分代码只执行一次，所以无需耗时编译，解释执行即可，将小部分的热点代码编译成机器码，达到理想的运行速度</p>
+<h5 id="方法内联"><a href="#方法内联" class="headerlink" title="方法内联"></a>方法内联</h5><p>把方法内饭吗拷贝、粘贴到调用者的位置</p>
+<p>常量折贴</p>
+<h5 id="字段优化"><a href="#字段优化" class="headerlink" title="字段优化"></a>字段优化</h5><h5 id="反射优化"><a href="#反射优化" class="headerlink" title="反射优化"></a>反射优化</h5><h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p>这个是java内存模型，和java内存结构不是一回事</p>
+<p>定义了一套在多线程读写共享数据时（成员变量，数组），对数据的可见性、有序性、原子性的规则和保障</p>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p><strong>保证指令不受线程上下文切换的影响</strong></p>
+<ol>
+<li><p>synchronized关键字解决</p>
+<p>每个对象都有自己的monitor区域，monitor区域有owner区域，entrylist区域，waitset区域，第一个线程t1来发现owner是空的，进入owner，执行monitor enter锁定monitor，第二个线程t2来进入entrylist，进入阻塞状态，当t1执行完后执行monitorexit,通知entrylist里面的阻塞线程来争抢owner</p>
+<ul>
+<li>必须锁住的是同一个对象</li>
+<li>锁的粒度注意</li>
+</ul>
+</li>
+</ol>
+<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p><strong>保证指令不受cpu缓存的影响</strong></p>
+<p>t1线程对共享变量的修改对t2线程不可见，导致了一些问题</p>
+<p>当一个线程频繁读取主内存中的共享变量到工作内存中时，JIT会将该共享变量的值从主内存中放到缓存中提高工作效率，此时如果另一个线程修改了主内存的值，那么会导致不一致的问题</p>
+<p>volatile解决</p>
+<p>用来修饰成员变量和静态成员标量，通过读写屏障避免线程从自己工作缓存中查找变量的值，必须在主存中获取它的值</p>
+<ul>
+<li>只适用于一个线程写，多个线程读</li>
+</ul>
+<p>当然synchronized也可以解决，但是synchronized属于重量级操作性能相对较低</p>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p><strong>保证指令不受cpu指令并行优化的影响</strong></p>
+<p>JIT在运行时会有一些指令重排的优化，多线程下指令重排会影响正确性</p>
+<p>volatile解决，修饰的变量禁止指令重排</p>
+<h3 id="volatile原理"><a href="#volatile原理" class="headerlink" title="volatile原理"></a>volatile原理</h3><ul>
+<li>写屏障，保证在该屏障前，对共享变量的改动，都同步至主存中</li>
+<li>读屏障，保证在该屏障后，对共享变量的读取，从主存中读取最新数据</li>
+</ul>
+<p>volatile就是在volatile变量的写指令后加入了写屏障，在对volatile变量的读指令前加入读屏障</p>
+<h3 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h3><p>可见性和有序性的一套规则总结</p>
+<ul>
+<li>线程对volatile变量的写，对接下来其他线程的读可见</li>
+<li>线程解锁m前对变量的写，对接下来对m加锁的线程的读可见</li>
+<li>线程start之前对变量的写，对线程开始后对变量的读可见</li>
+<li>线程结束前对变量的写 ，对去它线程得知它结束后读可见</li>
+<li>对变量的默认值的写，对其他线程对该变量的读可见</li>
+<li>具有传递性</li>
+<li>线程t1打断t2前对变量的写，对于其他线程得知t2被打断后的变量的读可见</li>
+</ul>
+<h3 id="CAS与原子类"><a href="#CAS与原子类" class="headerlink" title="CAS与原子类"></a>CAS与原子类</h3><p>CAS即compareandswap，是一种乐观锁的思想，更改变量（volatile修饰）的值时，记录旧值，在提交时，比较旧值和目前的旧值是否相等，不相等就失败，保证了本线程做修改的时候，别的线程没有干扰</p>
+<p>结合volatile和cas实现了无锁并发，适用于竞争不激烈，多核cpu的情况</p>
+<ul>
+<li>没有使用synchronized,所以线程不会陷入阻塞，这是效率提升的原因</li>
+<li>如果竞争激烈的话，cas必然频繁发生，效率会影响</li>
+</ul>
+<h3 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h3><ul>
+<li>乐，乐观的估计，不怕别的线程修改共享变量</li>
+<li>悲，悲观的估计，防止别的线程来修改共享变量</li>
+</ul>
+<h3 id="原子操作类"><a href="#原子操作类" class="headerlink" title="原子操作类"></a>原子操作类</h3><p>java.util.concurrent提供的类，底层用cas+volatile</p>
+<h3 id="synchronized优化"><a href="#synchronized优化" class="headerlink" title="synchronized优化"></a>synchronized优化</h3><h4 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h4><ul>
+<li>class指针</li>
+<li>MarkWord<ul>
+<li>hash码</li>
+<li>分代年龄(新生代-&gt;老年代)</li>
+</ul>
+</li>
+<li>加锁时，这些信息根据情况被替换为标记为、线程锁记录指针、重量级锁指针、线程id等内容</li>
+</ul>
+<h4 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h4><p>如果一个对象时多线程访问的，访问时间错开的，无竞争的，可使用轻量级锁</p>
+<p>每个线程的栈帧中都有一个锁记录的结构，记录锁定对象的MW</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901154847657.png" alt="image-20220901154847657"></p>
+<ol>
+<li><p>线程1访问同步块A，把Mark复制到线程1的锁记录</p>
+<ul>
+<li>mark此时为<strong>01</strong>表示无锁</li>
+</ul>
+</li>
+<li><p>然后CAS修改mark为线程1锁记录的地址</p>
+<ul>
+<li>如果修改成功了，说明获得所成功</li>
+<li>mark此时为<strong>00</strong>表示轻量级锁 +线程一锁记录地址</li>
+</ul>
+</li>
+<li><p>执行同步块A</p>
+</li>
+<li><p>访问同步块B，把Mark复制到线程1的锁记录</p>
+</li>
+<li><p>CAS修改Mark为线程一的所记录地址，发现是自己的锁，失败</p>
+</li>
+<li><p>锁重入</p>
+</li>
+<li><p>执行同步块B</p>
+</li>
+<li><p>同步块B执行完毕，弹出一个锁记录地址</p>
+</li>
+<li><p>同步块A执行完毕</p>
+</li>
+<li><p>成功（解锁） </p>
+<ol>
+<li>记录的mardword还回去</li>
+<li>锁标记从00改为01</li>
+</ol>
+</li>
+<li><p>线程2来了，重复…</p>
+</li>
+</ol>
+<h4 id="锁膨胀"><a href="#锁膨胀" class="headerlink" title="锁膨胀"></a>锁膨胀</h4><p>上一步2cas加锁失败了，有一种情况就是其他线程为此对象加上了，轻量级锁，这时需要锁膨胀，将轻量级锁变为重量级锁</p>
+<ul>
+<li>线程2cas修改mw里面的锁标记为重量级锁，00-&gt;10</li>
+<li>线程2进入monito去阻塞，并在对象头里的锁记录地址改为一个重量锁的指针，线程1解锁的时候根据这个重量锁指针去唤醒阻塞中的线程</li>
+<li>线程1cas解锁失败，发现不是自己的锁记录地址，它就释放重量锁，就是根据锁记录地址找到正在阻塞的线程，唤醒它们去竞争，还回对象的MW信息，这样就完成了解锁操作</li>
+</ul>
+<h4 id="重量锁"><a href="#重量锁" class="headerlink" title="重量锁"></a>重量锁</h4><p>monitor enter，monitor exit加锁解锁</p>
+<p>6之后，如果线程获取锁失败后，进行自旋重试，先不阻塞</p>
+<ul>
+<li>自旋是自适应的，一次成功后，后面会多自旋，失败后后面会少自旋</li>
+<li>自旋会占用CPU时间，单核CPU自旋就是浪费，多核CPU自旋才能发挥优势</li>
+<li>7之后不能控制是否开启自旋</li>
+</ul>
+<h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><p>锁重入的时候需要cas操作，偏向锁直接在首次cas的时候把自己的线程id存入了对象头的MW上，之后发现是自己的线程id就不cas了</p>
+<ul>
+<li>撤销偏向锁，需将持锁线程升级为轻量级锁，这个过程会stw</li>
+<li>访问hashcode会撤销偏向锁，因为对象头空间比较金贵，存了线程id，hashcode会被存到加锁的线程里</li>
+<li>因为对象头空间比较金贵，存了线程id，hashcode会被存到加锁的线程里</li>
+<li>撤销偏向和重偏向都是批量进行的，以类为单位</li>
+<li>撤销偏向锁到达了某个阈值，整个类的对象都会变为不可偏向锁</li>
+<li>-XX:-UseBiasedLocking禁用</li>
+</ul>
+<h4 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h4><ol>
+<li>减少上锁时间</li>
+<li>减少锁的粒度<ul>
+<li>将一个锁拆为多个锁提高并发度<ul>
+<li>ConcurrentHashMap，1.8中链表头上进行加锁，原来是整个锁住了HashTable，1.8是降低了锁得粒度，锁住的只是一个链表，其他的正常读写</li>
+<li>LongAdder，计数的一个原子操作类，分为base和cells两部分。无争用的时候，用CAS累加值到base，有争用的时候，根据线程数去初始化cells数组，每个线程给对应的cell进行修改，最后将每个cell进行累加，再加上base就是最终的值</li>
+<li>LinkedBlockingQueue入出对的时候使用不同的锁，相对于LinkedBlockingArray只有一个锁效率更高</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>锁粗化<ul>
+<li>多次循环进入同步块不如同步块内多次循环</li>
+<li>append里面有锁，StringBuffer</li>
+</ul>
+</li>
+<li>锁消除<ul>
+<li>JVM会进行代码的逃逸分析，例如某个加锁的对象是方法内局部变量吗，不会被其他线程所访问到，就是被JIT忽略掉所有的同步操作</li>
+</ul>
+</li>
+<li>读写分离<ul>
+<li>CopyOnWriteArrayList</li>
+<li>CopyOnWriteSet</li>
+<li>读是读原始数组，写是复制一份在新数组上写，只要对写操作进行同步就可以了</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="OS"><a href="#OS" class="headerlink" title="OS"></a>OS</h1><h2 id="OS？"><a href="#OS？" class="headerlink" title="OS？"></a>OS？</h2><ol>
+<li>管理计算机软硬件的一个程序</li>
+<li>本质上一个运行在计算机上的软件，管理计算机的软硬件资源</li>
+<li>屏蔽了硬件层的复杂新</li>
+<li>OS内核是OS核心部分，负责系统的内存管理、硬件设备的管理、文件系统的管理、应用程序的管理，内核是连接应用程序和硬件的桥梁，决定系统的性能和稳定性</li>
+</ol>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>​		进程在系统上的运行分为两个级别，用户态和系统态，用户态可以访问用户程序的数据，系统态可以访问计算机的任何资源（比如文件管理，进程控制，内存管理）。那我们的程序基本运行在用户态，想要访问系统态级别的资源（设备、文件、进程控制、进程通信、内存管理），必须通过系统调用的方式向OS提出服务请求，由OS代完成。</p>
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><p>简单来说，<strong>进程就是资源+指令执行序列，线程就是保留了并发的特点，避免了线程切换的代价</strong></p>
+<p>进程就是用来加载指令、管理内存、管理IO的，进程可以视为程序的一个实例，大部分程序可以运行多个实例</p>
+<p>一个进程可分为多个线程，一个线程就是一个指令流，指令流中的一条条指令以一定的顺序交给cpu执行</p>
+<p>Java里，线程作为最小调度单位，进程作为资源分配的最小单位。</p>
+<ul>
+<li>进程相互独立，是进程的子集</li>
+<li>进程有共享的资源，如堆内存，供内部线程共享</li>
+<li>进程间通信较为复杂，不同计算机之间的进程通信还要遵守相同的协议 如HTTP</li>
+<li>线程间通信比较简单，java里它们共享堆内存</li>
+<li>线程更清量，上下文切换成本比进程低</li>
+</ul>
+<h2 id="并行和并发"><a href="#并行和并发" class="headerlink" title="并行和并发"></a>并行和并发</h2><p><strong>并发：</strong>多任务同时出发交替执行，同一个cpu单核执行</p>
+<p><strong>并行：</strong>多任务同时出发同时执行，多个cpu核心分别执行</p>
+<h2 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h2><p>创建、就绪（获得了除了处理器之外的一切所需资源）、运行、阻塞（等待某一事件而暂停运行，如等待某一资源的坑或IO操作的完成）、结束</p>
+<h2 id="进程间通信方式"><a href="#进程间通信方式" class="headerlink" title="进程间通信方式"></a>进程间通信方式</h2><p>每个进程各自有不同的用户地址空间，任意一个进程的全局变量，在另一个进程中都看不到，所以进程间要交换数据必须通过内核<strong>，在内核中开辟一块缓冲区</strong>，进程1把数据从用户空间拷到内核缓冲区，进程2再读走</p>
+<p><strong>匿名管道</strong>：</p>
+<p>​		管道就是单独构成一种文件系统，并且只存在与内存中，一个进程向管道中写的内容被管道另一端的进程读出。写入的内容每次都添加在管道缓冲区的末尾，并且每次都是从缓冲区的头部读出数据。适用于父子、兄弟进程间</p>
+<p><strong>有名管道</strong>：</p>
+<p>​		遵循先进先出，以磁盘文件的方式存在，实现本机任意两个进程通信，<strong>有名管道的名字存在于文件系统中，内容存放在内存中。</strong></p>
+<p><strong>信号</strong>: 信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生</p>
+<p><strong>消息队列</strong></p>
+<ul>
+<li>消息队列是存放在内核中的消息链表，每个消息队列由消息队列标识符表示</li>
+<li>与管道（无名管道：只存在于内存中的文件；命名管道：存在于实际的磁盘介质或者文件系统）不同的是消息队列存放在内核中，只有在内核重启(即，操作系统重启)或者显示地删除一个消息队列时，该消息队列才会被真正的删除。</li>
+<li>另外与管道不同的是，消息队列在某个进程往一个队列写入消息之前，并不需要另外某个进程在该队列上等待消息的到达。</li>
+</ul>
+<p><strong>信号量</strong>，计数器，意图实现进程间同步，PV源语</p>
+<p><strong>共享内存</strong>，jvm堆</p>
+<p><strong>套接字</strong>，凭借这个机制，客户端和服务器既可以在单机也可跨网络进行，它是TCPIP网络通信的基本操作单元，可看做不同主机间的进程进行双向通信的端点，是通信双方的一种约定，用套接字中的相关函数来完成通信</p>
+<ul>
+<li>域</li>
+<li>端口号</li>
+<li>协议类型</li>
+</ul>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220922193700953.png" alt="image-20220922193700953"></p>
+<p><strong>服务器</strong></p>
+<ol>
+<li>首先服务器应用程序用系统调用socket来创建一个套接字，它是系统分配给该服务器进程的类似文件描述符的资源，它不能与其他的进程共享。</li>
+<li>然后，服务器进程会给套接字起个名字，我们使用系统调用bind来给套接字命名。然后服务器进程就开始等待客户连接到这个套接字。</li>
+<li>接下来，系统调用listen来创建一个队列并将其用于存放来自客户的进入连接。</li>
+<li>最后，服务器通过系统调用accept来接受客户的连接。它会创建一个与原有的命名套接不同的新套接字，这个套接字只用于与这个特定客户端进行通信，而命名套接字（即原先的套接字）则被保留下来继续处理来自其他客户的连接（建立客户端和服务端的用于通信的流，进行通信。</li>
+</ol>
+<p><strong>客户端</strong></p>
+<ol>
+<li>客户应用程序首先调用socket来创建一个未命名的套接字，然后将服务器的命名套接字作为一个地址来调用connect与服务器建立连接</li>
+<li>一旦连接建立，我们就可以像使用底层的文件描述符那样用套接字来实现双向数据的通信（通过流进行数据传输）</li>
+</ol>
+<h2 id="线程间同步方式"><a href="#线程间同步方式" class="headerlink" title="线程间同步方式"></a>线程间同步方式</h2><ul>
+<li><strong>互斥量</strong>，synchronized</li>
+<li><strong>信号量</strong>，它允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量。</li>
+<li><strong>事件</strong>，wait&#x2F;notify，通过通知操作的方式来保持多线程同步，还可以方便的实现多线程优先级的比较操作。</li>
+</ul>
+<h2 id="进程调度算法"><a href="#进程调度算法" class="headerlink" title="进程调度算法"></a>进程调度算法</h2><ul>
+<li>FCFS先到先服务</li>
+<li>SJF短作业优先，从就绪队列中选预估运行时间最短的</li>
+<li>时间片轮转调度算法</li>
+<li>多级反馈队列调度算法</li>
+<li>优先级调度，具有相同优先级的进程以FCFS方式运行</li>
+</ul>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>多个进程由于互相等待对方持有的资源，造成谁都无法执行的状情况</p>
+<h3 id="四个必要条件"><a href="#四个必要条件" class="headerlink" title="四个必要条件"></a>四个必要条件</h3><ul>
+<li>互斥使用（资源互斥使用）</li>
+<li>不可抢占</li>
+<li>请求和保持</li>
+<li>环路等待（形成了环路等待）</li>
+</ul>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
+<li>预防，就是破坏死锁条件，按序一次性申请所有需要的资源</li>
+<li>避免，检测资源的请求，造成死锁就拒绝<ul>
+<li>银行家算法，判断是否存在一条不死锁的路，称为安全序列，O(mn^2)m为资源个数，n为进程个数</li>
+</ul>
+</li>
+<li>检测+恢复，检测到死锁出现，让一些进程回滚<ul>
+<li>定时检测，发现资源利用率低时检测</li>
+</ul>
+</li>
+<li>忽略，重启解决</li>
+</ul>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>内存的分配和回收，地址转换，逻辑地址-&gt;物理地址</p>
+<h3 id="管理机制"><a href="#管理机制" class="headerlink" title="管理机制"></a>管理机制</h3><ul>
+<li><p>连续分配管理方式</p>
+<ul>
+<li><p>块式</p>
+<p>将内存分为大小固定的几个块，每块一个进程，容易有碎片</p>
+</li>
+</ul>
+</li>
+<li><p>非连续分配管理方式</p>
+<ul>
+<li><p>页式</p>
+<ul>
+<li><p>把主存分为大小相等且固定的一页一页形式，页较小，相比块式划分粒度小，提高了利用率，减少了碎片</p>
+</li>
+<li><p>通过页表，对应逻辑地址和物理地址</p>
+</li>
+</ul>
+</li>
+<li><p>段式</p>
+<ul>
+<li>页式无实际意义，段式分为一段段，每个段定义一组逻辑信息，比如main程序段、子程序x、子程序y段</li>
+<li>通过段表，对应逻辑地址和物理地址</li>
+</ul>
+</li>
+<li><p>段页式</p>
+<ul>
+<li>结合了段和页式的优点，把主存分为若干段，把每个段分成若干页</li>
+<li>所以段与段、段的内部都是离散的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="分页和分段-的区别"><a href="#分页和分段-的区别" class="headerlink" title="分页和分段 的区别"></a>分页和分段 的区别</h3><ol>
+<li>共同点<ol>
+<li>提高了内存利用率，减少了碎片</li>
+<li>页和段都是离散存储的，但是每个页和段里面的内存是连续的</li>
+</ol>
+</li>
+<li>不同点<ol>
+<li>页大小固定，由OS决定，段则不固定，取决于运行的程序</li>
+<li>分页是满足了OS内存管理的需求，分段是满足了程序的需要，可以体现为代码段、数据段</li>
+</ol>
+</li>
+</ol>
+<h3 id="快表和多级页表"><a href="#快表和多级页表" class="headerlink" title="快表和多级页表"></a>快表和多级页表</h3><p>分页内存管理中呢，虚拟地址到物理地址转化要快，虚拟地址空间大，页表不能太大</p>
+<p>解决第一个问题有了快表，解决第二个问题有了多级页表</p>
+<ul>
+<li>快表可理解为一种Cache，内容是页表的一部分或全部内容，采用页表做地址转换，之前读写内存数据，需访问两次主存，加了快表后，有时只用访问一次，这样加速了查找速度，提高了指令执行速度<ol>
+<li>根据虚拟地址中的页号查快表</li>
+<li>如果该页在快表中，直接读出物理地址</li>
+<li>不在快表中，访问主存中的页表，得到物理地址，同时添加进cache</li>
+<li>快表填满后，按一定的策略淘汰</li>
+</ol>
+</li>
+</ul>
+<h3 id="虚拟地址空间和CPU寻址"><a href="#虚拟地址空间和CPU寻址" class="headerlink" title="虚拟地址空间和CPU寻址"></a>虚拟地址空间和CPU寻址</h3><p>CPU寻址，实际就是将虚拟地址转为物理地址，是CPU中的MMU（内存管理单元）</p>
+<p>如果没有虚拟地址空间，程序直接访问和操作物理内存，这样造成操作系统崩溃。而且运行多个程序时，多个程序赋值同一个内存地址，造成程序崩溃</p>
+<ul>
+<li>程序可以用相邻的虚拟地址访问物理内存中不相邻的内存缓冲区</li>
+<li>程序也可以用虚拟地址访问大于物理内存的内存缓冲区，当物理内存不够时，内存管理器将物理内存页存到磁盘里，数据和代码页根据需要在内存和磁盘间移动</li>
+<li>不同进程的虚拟内存彼此隔离，互相访问不到</li>
+</ul>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>很多时候发现电脑上运行的软件远大于内存，其实是虚拟内存可以让程序拥有超过物理内存大小的可用空间，虚拟内存为每个进程提供了一个一致的、连续的、私有的地址空间，似乎是只有它在独享主存，这样有效的管理内存并减少出错</p>
+<h3 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h3><p>因为有局部性原理，才可以装入部分程序到内存就可以开始运行</p>
+<ul>
+<li>时间局部性，如果程序中的某条指令、数据被执行、访问，那么不久后可能再次执行、访问。典型原因是由于程序中大量的循环操作</li>
+<li>空间局部性，程序访问了某个内存单元，不久后，附近的存储单元也被访问到，这是由于通常指令是按序存放的，数据也是</li>
+</ul>
+<p>利用局部性原理实现了高速缓存</p>
+<h3 id="虚拟存储器"><a href="#虚拟存储器" class="headerlink" title="虚拟存储器"></a>虚拟存储器</h3><p>基于局部性原理，在程序装入时，可以将程序的一部分装入内存，而将其他部分留在外存，就可以启动程序执行。由于外存往往比内存大很多，所以我们运行的软件的内存大小实际上是可以比计算机系统实际的内存大小大的。在程序执行过程中，当所访问的信息不在内存时，由操作系统将所需要的部分调入内存，然后继续执行程序。另一方面，操作系统将内存中暂时不使用的内容换到外存上，从而腾出空间存放将要调入内存的信息。这样，计算机好像为用户提供了一个比实际内存大得多的存储器</p>
+<h3 id="虚拟存储的技术实现"><a href="#虚拟存储的技术实现" class="headerlink" title="虚拟存储的技术实现"></a>虚拟存储的技术实现</h3><ol>
+<li>请求分页存储管理，在分页管理上，为支持虚拟存储器，增加了请求调页和页面置换功能，在作业开始前，仅装入当前要执行的部分段，需要时由处理器通知OS按照对应的页面置换算法将相应的页面调入到主存，同时将暂时不用的置换到外存中</li>
+<li>请求分段式存储管理，在分段管理上，为支持虚拟存储器，增加了请求调段功能、分段置换功能。同上</li>
+<li>请求段页式存储管理</li>
+</ol>
+<p><strong>缺页中断</strong>：如果<strong>需执行的指令或访问的数据尚未在内存</strong>，则由处理器通知操作系统将相应的页面或段<strong>调入到内存</strong>，然后继续执行程序；</p>
+<h3 id="页面置换算法"><a href="#页面置换算法" class="headerlink" title="页面置换算法"></a>页面置换算法</h3><ul>
+<li>OPT，最佳页面置换算法，所淘汰的页面是永久不使用的，或是长时间不再访问，这个实现不了</li>
+<li>FIFO，先进先出，淘汰最先进入内存的页面</li>
+<li>LRU，淘汰最久没用的，手机后台</li>
+<li>LFU，淘汰访问频次最低的数据，频次相同找最旧的</li>
+</ul>
+<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="并行和并发-1"><a href="#并行和并发-1" class="headerlink" title="并行和并发"></a>并行和并发</h2><p>并行是，多个任务同时出发，多个cpu同时执行；并发是多个任务同时出发，在一个cpu上交替执行</p>
+<h2 id="java线程创建"><a href="#java线程创建" class="headerlink" title="java线程创建"></a>java线程创建</h2><ol>
+<li><p>Thread类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造方法的参数是给线程指定名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="string">&quot;t1&quot;</span>) &#123;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">	<span class="comment">// run 方法内实现了要执行的任务</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">t1.start();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Runnable配合Thread</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line"><span class="type">Runnable</span> <span class="variable">task2</span> <span class="operator">=</span> () -&gt; log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(task2, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">t2.start();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>FutureTask配合Thread</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line">FutureTask&lt;Integer&gt; task3 = <span class="keyword">new</span> <span class="title class_">FutureTask</span>&lt;&gt;(() -&gt; &#123;</span><br><span class="line">	log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(task3, <span class="string">&quot;t3&quot;</span>).start();</span><br><span class="line"><span class="comment">// 主线程阻塞，同步等待 task 执行完毕的结果</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">result</span> <span class="operator">=</span> task3.get();</span><br><span class="line">log.debug(<span class="string">&quot;结果是:&#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>Thread和Runnable</p>
+<p>最终线程运行的时候，都是执行的线程中的run方法</p>
+<ul>
+<li>Runnable更易与线程池等高级API融合</li>
+<li>Runnbale让任务类脱离了Thread继承类，更灵活</li>
+</ul>
+<h2 id="线程运行原理"><a href="#线程运行原理" class="headerlink" title="线程运行原理"></a>线程运行原理</h2><p>栈就是给线程用的，由多个栈帧组成，对应着每次方法调用所占的内存。每个线程只有一个活动的栈帧，对应着正在执行的方法</p>
+<ul>
+<li>程序计数器</li>
+<li>栈帧<ul>
+<li>局部变量表</li>
+<li>操作数栈</li>
+<li>锁记录</li>
+<li>返回地址</li>
+</ul>
+</li>
+</ul>
+<h2 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h2><p>切换线程的时机</p>
+<ul>
+<li>cpu时间片用完</li>
+<li>gc</li>
+<li>有更高优先级的线程</li>
+<li>线程自己调用了sleep yield wait join park synchronized lock等方法</li>
+</ul>
+<p>当Context Switch发生时，需要OS保存当前线程的状态，并恢复另一个线程的状态，就是<strong>程序计数器（Program Conteext Register）</strong>的活，记住下一条JVM指令的地址，是线程私有的</p>
+<h2 id="常见方法"><a href="#常见方法" class="headerlink" title="常见方法"></a>常见方法</h2><h3 id="start与run"><a href="#start与run" class="headerlink" title="start与run"></a>start与run</h3><p>run是在主线程中执行run，没有启动新的线程，start是启动新的线程，通过新的线程去执行run方法</p>
+<h3 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h3><p>礼让，让当前运行的线程从Running到Runnable，调度其他线程，不一定成功</p>
+<h3 id="join"><a href="#join" class="headerlink" title="join"></a>join</h3><p>插队，等待当前线程运行结束</p>
+<h3 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt"></a>interrupt</h3><p>打算wait join sleep的线程，打算sleep的线程会全清空打断标记</p>
+<h3 id="park"><a href="#park" class="headerlink" title="park"></a>park</h3><p>不会清空打断状态</p>
+<h2 id="主线程和守护进程"><a href="#主线程和守护进程" class="headerlink" title="主线程和守护进程"></a>主线程和守护进程</h2><p>主进程执行完，守护线程没执行完也要结束，GC线程是一种守护线程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestDaemon</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        log.debug(<span class="string">&quot;开始运行...&quot;</span>);</span><br><span class="line">        <span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            log.debug(<span class="string">&quot;开始运行...&quot;</span>);</span><br><span class="line">            sleep(<span class="number">2</span>);</span><br><span class="line">            log.debug(<span class="string">&quot;运行结束...&quot;</span>);</span><br><span class="line">        &#125;, <span class="string">&quot;daemon&quot;</span>);</span><br><span class="line">        <span class="comment">// 设置该线程为守护线程</span></span><br><span class="line">        t1.setDaemon(<span class="literal">true</span>);</span><br><span class="line">        t1.start();</span><br><span class="line"></span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        log.debug(<span class="string">&quot;运行结束...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五种状态"><a href="#五种状态" class="headerlink" title="五种状态"></a>五种状态</h2><p>初始，可运行，运行，阻塞，终止</p>
+<p>new,runnable,blocked，waiting，timedwaiting，terminated</p>
+<h2 id="多线程带来的问题"><a href="#多线程带来的问题" class="headerlink" title="多线程带来的问题"></a>多线程带来的问题</h2><p>临界区（存在对共享资源的读写操作的代码块），竞态条件（在临界区内，由于代码执行序列不同导致结果无法预测）</p>
+<h3 id="互斥"><a href="#互斥" class="headerlink" title="互斥"></a>互斥</h3><p>保证临界区内竞态条件发生时，同一时刻只有一个线程执行</p>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>线程执行的先后，顺序不同，需要一个线程等待另一个线程执行到某个点</p>
+<h3 id="synchronized-阻塞式"><a href="#synchronized-阻塞式" class="headerlink" title="synchronized(阻塞式)"></a>synchronized(阻塞式)</h3><ul>
+<li>加在成员方法上，相当于锁住了this</li>
+<li>加在static方法上，相当于锁住了类对象，….class</li>
+</ul>
+<h3 id="安全分析"><a href="#安全分析" class="headerlink" title="安全分析"></a>安全分析</h3><ul>
+<li><p>成员变量和静态变量</p>
+<ul>
+<li>没共享，安全</li>
+<li>共享时，只有读也是安全的</li>
+</ul>
+</li>
+<li><p>局部变量</p>
+<ul>
+<li>安全</li>
+</ul>
+</li>
+<li><p>引用的对象</p>
+<ul>
+<li><p>未必安全，如果多个线程访问的都是堆中同一对象，原因是无论哪个线程中的method2引用的都是同一个对象中的list成员变量</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901215650961.png" alt="image-20220901215650961"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901215802953.png" alt="image-20220901215802953"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901220052246.png" alt="image-20220901220052246"></p>
+</li>
+<li><p>把list修改为局部变量</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901220216061.png" alt="image-20220901220216061"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220901220433727.png" alt="image-20220901220433727"></p>
+</li>
+</ul>
+</li>
+<li><p>访问修饰符</p>
+<ul>
+<li>把private方法，改为public，不会有问题，因为多线程的lsit不是同一个</li>
+<li>继承类重写method3，有安全问题，list和父类是同一个，把工作方法加final，别的加private</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见线程安全类"><a href="#常见线程安全类" class="headerlink" title="常见线程安全类"></a>常见线程安全类</h2><p>String Integer StringBuffer Random Vector HashTable java.util.concurrent包下的类</p>
+<ul>
+<li>每个方法是原子的</li>
+<li>多个方法的组合不是原子的</li>
+</ul>
+<h2 id="对象头-1"><a href="#对象头-1" class="headerlink" title="对象头"></a>对象头</h2><ul>
+<li>class指针</li>
+<li>MarkWord<ul>
+<li>hash码</li>
+<li>分代年龄(新生代-&gt;老年代)</li>
+<li>锁标记</li>
+</ul>
+</li>
+<li>加锁时，这些信息根据情况被替换为标记为、线程锁记录指针、重量级锁指针、线程id等内容</li>
+</ul>
+<h2 id="Monitor"><a href="#Monitor" class="headerlink" title="Monitor"></a>Monitor</h2><p>监视器或管程</p>
+<p>加锁时，将对象头和monitor关联起来，就是线程1把对象头mw里的hash码等信息拿走保管，换成monitor的地址，线程1就成了monitor的持有者，再来一个线程2，发现锁对象头已经关联了一个monitor，这时它就加入entrylist等待队列，进入阻塞状态，等待其他线程释放对owner的所有权，再来一个线程3，还是加入了entrylist。thread1执行完叫醒entrylist的所有线程，让它们抢</p>
+<h2 id="synchronized进阶"><a href="#synchronized进阶" class="headerlink" title="synchronized进阶"></a>synchronized进阶</h2><p>线程1，cas将锁对象头里面的mw记录在自己栈帧的锁记录，此时mw里面锁标识是01，即无锁，改为00，即轻量级锁，还是线程1来给同一个对象加锁，即加锁时发现mw锁记录地址是自己，这就是锁重入，每次重入在新的栈帧里增加一个锁记录，这时cas替换肯定失败，那就不记录对象头里面的mw了，为null，相当于在线程中记录自己重入了几次，即有几个锁记录就是重入了几次，解锁的时候，解一个锁去一个锁记录，当发现要去的锁记录不为null,此时cas将锁对象头的mw记录还给对象头，解锁成功，如果解锁时cas失败了，说明锁已经不是轻量级锁了，那就进入重量级锁解锁流程。回到之前，线程2来获取锁，和线程1刚开始一样相加轻量级锁，肯定会失败，进入锁膨胀流程，为所锁对象申请Monitor，让锁对象指向Monitor，然后进入monitor的entrylist，进入了阻塞状态。线程1，解锁时发现已经不是轻量级锁了，它就根据mw里面的monitor地址，找到monitor对象，设置owner为null，唤醒entrylist中阻塞的线程</p>
+<p>刚才说的过程中，在线程1和线程2竞争的过程中，线程2发现锁被占用了，直接就锁膨胀进入entrylist，那么这里有个优化，它不会立即走，而是自旋的重试几次，如果成功了，它就不用阻塞了，自旋也是自适应的，如果成功了，下次就会多自旋几次，不成功下次就少自旋几次</p>
+<p>还有上述说到的锁重入，线程1再次获得锁的时候，还是cas的替换锁对象头的mw信息，那偏向锁就避免了这个问题，它把自己的线程id设置在了锁对象头。但是这个有点得不偿失，当调用对象的hashcode时会导致偏向锁被撤销，因为hashcode被存在了线程的锁记录里，其他线程使用锁对象时也会导致同样的问题，所以可以禁用偏向锁</p>
+<h2 id="waitnotify"><a href="#waitnotify" class="headerlink" title="waitnotify"></a>waitnotify</h2><p><strong>这是线程间合作的手段</strong></p>
+<p>monitor，owner工作的线程运行条件不足时，调用wait方法，进入waitset变成了waiting状态，waiting和blocked状态的线程都是阻塞态的，不占用cpu运行时间，当owner的线程调用notify或notifyall方法后唤醒waitset里的阻塞的线程，让它们加入entrylist重新竞争</p>
+<h2 id="sleep-long-n-和wait-long-n-的区别"><a href="#sleep-long-n-和wait-long-n-的区别" class="headerlink" title="sleep(long n)和wait(long n)的区别"></a>sleep(long n)和wait(long n)的区别</h2><ul>
+<li>sleep是Thread的方法，wait是Object的方法</li>
+<li>sleep不需要和synchronized配合使用</li>
+<li>wait在等待时回释放锁，sleep不会</li>
+<li>都会进入timed_waiting</li>
+</ul>
+<h2 id="park和unpark"><a href="#park和unpark" class="headerlink" title="park和unpark"></a>park和unpark</h2><p>park后线程状态是wait</p>
+<p>与waitnotify对比</p>
+<ul>
+<li>不必配合synchronized使用</li>
+<li>这时针对某一个线程的阻塞或唤醒，notify和notifyall要么随机要么全唤醒</li>
+<li>可以先unpark，每个线程都有自己的Parker对象，由Parker、cond、counter组成，调park如果counter为0就进入wait，掉unpark就把counter变为1，多次调unpark也是变为1</li>
+</ul>
+<h2 id="重新理解状态"><a href="#重新理解状态" class="headerlink" title="重新理解状态"></a>重新理解状态</h2><ul>
+<li>new-&gt;runnabe<ul>
+<li>t.wait()</li>
+</ul>
+<p>	</p>
+</li>
+<li>runnable-&gt;waiting<ul>
+<li>synchronized(obj)<ul>
+<li>obj.wait()</li>
+</ul>
+</li>
+<li>t.join() </li>
+<li>LockSupport.park();</li>
+</ul>
+</li>
+<li>runnable-&gt;timed_waiting<ul>
+<li>sychronized(obj)<ul>
+<li>obj.wait(long n)</li>
+</ul>
+</li>
+<li>t.join(long n)</li>
+<li>Thread.sleep(loing n)</li>
+<li>LockSupport.parkNanos(long nanos) or  LockSupport.parkUntil(long millis)</li>
+</ul>
+</li>
+<li>runnable-&gt;blocked<ul>
+<li>synchronized(obj)<ul>
+<li>获取对象锁时竞争失败进入entrylist</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>runnable-&gt;terminated<ul>
+<li>执行完毕</li>
+</ul>
+</li>
+</ul>
+<h2 id="活跃性"><a href="#活跃性" class="headerlink" title="活跃性"></a>活跃性</h2><ul>
+<li>死锁，一个线程需要同时获取多把锁，这时就容易发生死锁</li>
+<li>活锁，两个线程互相改变对方的结束条件，最后谁都无法结束</li>
+<li>饥饿，没有死锁，但是按不到执行</li>
+</ul>
+<h2 id="ReentrantLock可重入锁"><a href="#ReentrantLock可重入锁" class="headerlink" title="ReentrantLock可重入锁"></a>ReentrantLock可重入锁</h2><p>相比于synchronized</p>
+<ul>
+<li>可中断</li>
+<li>可设置超时时间，（synchronized，entrylsit进入就一直等待）</li>
+<li>可设置为公平锁，entrylist按fcfs，防止线程饥饿</li>
+<li>支持多个条件变量，多个waitset</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取锁</span></span><br><span class="line">reentrantLock.lock();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="comment">// 临界区</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="comment">// 释放锁</span></span><br><span class="line">	reentrantLock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相比于waitnotify，这时waitsignal</p>
+<h2 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h2><p>cas与volatile实现，适用于线程少，多核cpu场景</p>
+<ul>
+<li>乐观锁思想，别的线程把共享变量改就改了，我在重试</li>
+<li>synchronized基于悲观锁思想，防止其他线程来改</li>
+<li>cas体现的是无锁并发，无阻塞并发<ul>
+<li>没用synchronized，线程不会进入阻塞，效率提升的原因</li>
+<li>竞争激烈的话，重试频繁发生，反而效率会受影响</li>
+</ul>
+</li>
+</ul>
+<p>无锁效率高的原因</p>
+<ul>
+<li>无锁，即使cas失败，线程也在高速运新，而synchronized会让线程在没获得锁的情况下发生上下文切换进入阻塞状态</li>
+<li>就像一列火车，要减速，刹车，再加速，代价比较大</li>
+<li>无锁，需要额外的cpu支持，如果分不到时间片，仍然会进入可运行状态，还是会导致上下文切换</li>
+</ul>
+<h2 id="不可变类的设计"><a href="#不可变类的设计" class="headerlink" title="不可变类的设计"></a>不可变类的设计</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">String</span>		<span class="comment">///防止子类破坏不可变性</span></span><br><span class="line">        <span class="keyword">implements</span> <span class="title class_">java</span>.io.Serializable, Comparable&lt;String&gt;, CharSequence &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The value is used for character storage.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">char</span> value[];	<span class="comment">///加final，保证了，只能在构造的时候给它赋值，只保证了引用不可改变，内容还是可改变的</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Cache the hash code for the string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> hash; <span class="comment">// Default to 0			///首次调用计算</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="final的使用"><a href="#final的使用" class="headerlink" title="final的使用"></a>final的使用</h3><ul>
+<li>属性用final修饰，保证了这些属性是只读的，不能修改</li>
+<li>类用final修饰，保证了该类中的方法不能被覆盖，放置子类无意破坏不可变性</li>
+</ul>
+<h3 id="保护性拷贝"><a href="#保护性拷贝" class="headerlink" title="保护性拷贝"></a>保护性拷贝</h3><p>substring，内部调用String的构造方法新创建了一个字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">String</span><span class="params">(<span class="type">char</span> value[], <span class="type">int</span> offset, <span class="type">int</span> count)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (offset &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">StringIndexOutOfBoundsException</span>(offset);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (count &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">StringIndexOutOfBoundsException</span>(count);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (offset &lt;= value.length) &#123;</span><br><span class="line">                <span class="built_in">this</span>.value = <span class="string">&quot;&quot;</span>.value;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (offset &gt; value.length - count) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">StringIndexOutOfBoundsException</span>(offset + count);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.value = Arrays.copyOfRange(value, offset, offset+count);<span class="comment">////</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>里面并没有对final char[] value引用进行修改，而是对内容进行了赋值</p>
+<p><strong>这种通过创建副本对象来避免共享的手段称为保护性拷贝</strong></p>
+<h2 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h2><p>当需要重用数量有限的同一类对象时，保证内存的最小化使用</p>
+<ul>
+<li>包装类里面的缓存池</li>
+<li>String串池</li>
+<li>连接池</li>
+</ul>
+<h2 id="final原理"><a href="#final原理" class="headerlink" title="final原理"></a>final原理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestFinal</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="number">0</span>: aload_0</span><br><span class="line">    <span class="number">1</span>: invokespecial #<span class="number">1</span> <span class="comment">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">    <span class="number">4</span>: aload_0</span><br><span class="line">    <span class="number">5</span>: bipush <span class="number">20</span></span><br><span class="line">    <span class="number">7</span>: putfield #<span class="number">2</span> <span class="comment">// Field a:I</span></span><br><span class="line">    &lt;-- 写屏障 <span class="comment">///之前的指令不会重排序到后面，之前的赋值操作同步到主存</span></span><br><span class="line">    <span class="number">10</span>: <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>final变量的赋值也会通过putfield指令来完成，同样在这条指令后也会加入写屏障，保证其他线程读到它的值时不会出现未赋值的情况</p>
+<p>加 final的静态成员变量，如果另一个类中调用，会将较小数值复制到另外一个类的栈内存中，较大就会复制到另个类中的常量池中，不加final相当于在堆中，访问效率低了一些</p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>产生背景</p>
+<ul>
+<li>线程是一种系统资源，每创建一个线程，都要占用一定的内存，就是栈内存，高并发下，来了很多任务，如果为每个任务创建一个新的线程，那对内存的占用是相当大的</li>
+<li>线程不是创建的越多越好，CPU就那么几个，阻塞的线程多了，上下文切换频繁，导致系统性能降低</li>
+</ul>
+<p>所以应该充分利用已有线程，发挥已有线程的潜力（享元模式的思想）</p>
+<h3 id="线程池状态"><a href="#线程池状态" class="headerlink" title="线程池状态"></a>线程池状态</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920152412512.png" alt="image-20220920152412512"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920152619783.png" alt="image-20220920152619783"></p>
+<h3 id="构造方法-1"><a href="#构造方法-1" class="headerlink" title="构造方法"></a>构造方法</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920152706328.png" alt="image-20220920152706328"></p>
+<p>救急线程有生存时间，核心线程没有，核心线程被占用且队列满了，才会用救急线程</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920153200861.png" alt="image-20220920153200861"></p>
+<ul>
+<li><p>线程池中刚开始没有线程，当一个任务提交给线程池后，线程池会创建一个新线程来执行任务。</p>
+</li>
+<li><p>当线程数达到 corePoolSize 并没有线程空闲，这时再加入任务，新加的任务会被加入workQueue 队列排队，直到有空闲的线程。</p>
+</li>
+<li><p>如果队列选择了有界队列，那么任务超过了队列大小时，会创建 maximumPoolSize - corePoolSize 数目的线程来救急。</p>
+</li>
+<li><p>如果线程到达 maximumPoolSize 仍然有新任务这时会执行拒绝策略。拒绝策略 jdk 提供了 4 种实现，其它著名框架也提供了实现 </p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920153635723.png" alt="image-20220920153635723"></p>
+<ul>
+<li>AbortPolicy 让调用者抛出 RejectedExecutionException 异常，这是默认策略  </li>
+<li>CallerRunsPolicy 让调用者运行任务  </li>
+<li>DiscardPolicy 放弃本次任务</li>
+<li>DiscardOldestPolicy 放弃队列中最早的任务，本任务取而代之  </li>
+<li>Dubbo 的实现，在抛出 RejectedExecutionException 异常之前会记录日志，并 dump 线程栈信息，方便定位问题  </li>
+<li>Netty 的实现，是创建一个新线程来执行任务  </li>
+<li>ActiveMQ 的实现，带超时等待（60s）尝试放入队列，类似我们之前自定义的拒绝策略  </li>
+<li>PinPoint 的实现，它使用了一个拒绝策略链，会逐一尝试策略链中每种拒绝策略</li>
+</ul>
+</li>
+<li><p>当高峰过去后，超过corePoolSize 的救急线程如果一段时间没有任务做，需要结束节省资源，这个时间由keepAliveTime 和 unit 来控制。</p>
+</li>
+</ul>
+<p>根据构造方法，JDK Executors 类中提供了众多工厂方法来创建各种用途的线程池  </p>
+<h3 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool"></a>newFixedThreadPool</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154255816.png" alt="image-20220920154255816"></p>
+<h3 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool"></a>newCachedThreadPool</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154428979.png" alt="image-20220920154428979"></p>
+<p> <img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154503185.png" alt="image-20220920154503185"></p>
+<h3 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor"></a>newSingleThreadExecutor</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154540520.png" alt="image-20220920154540520"></p>
+<h3 id="提交任务"><a href="#提交任务" class="headerlink" title="提交任务"></a>提交任务</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154639902.png" alt="image-20220920154639902"></p>
+<h3 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h3><p><strong>shutdown</strong></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154742450.png" alt="image-20220920154742450"></p>
+<p><strong>shutdownNow</strong></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154832586.png" alt="image-20220920154832586"></p>
+<p><strong>其他方法</strong></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920154904391.png" alt="image-20220920154904391"></p>
+<h2 id="JUC-1"><a href="#JUC-1" class="headerlink" title="JUC"></a>JUC</h2><h3 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h3><p>AbstractQueueSynchronizer抽象的基于队列的同步器，是阻塞式锁和相关的同步器工具的框架</p>
+<ul>
+<li>用 state 属性来表示资源的状态（分独占模式和共享模式），子类需要定义如何维护这个状态，控制如何获取锁和释放锁  <ul>
+<li>getState - 获取 state 状态</li>
+<li>setState - 设置 state 状态</li>
+<li>compareAndSetState - cas 机制设置 state 状态  </li>
+<li>独占模式是只有一个线程能够访问资源，而共享模式可以允许多个线程访问资源</li>
+</ul>
+</li>
+<li>提供了基于 FIFO 的等待队列，类似于 Monitor 的 EntryList</li>
+<li>条件变量来实现等待、唤醒机制，支持多个条件变量，类似于 Monitor 的 WaitSet</li>
+</ul>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920163207245.png" alt="image-20220920163207245"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920163256728.png" alt="image-20220920163256728"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920163308102.png" alt="image-20220920163308102"></p>
+<h3 id="ConCurrentHashMapJDK8"><a href="#ConCurrentHashMapJDK8" class="headerlink" title="ConCurrentHashMapJDK8"></a>ConCurrentHashMapJDK8</h3><h4 id="重要属性和内部类"><a href="#重要属性和内部类" class="headerlink" title="重要属性和内部类"></a>重要属性和内部类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认为 0</span></span><br><span class="line"><span class="comment">// 当初始化时, 为 -1</span></span><br><span class="line"><span class="comment">// 当扩容时, 为 -(1 + 扩容线程数)</span></span><br><span class="line"><span class="comment">// 当初始化或扩容完成后，为 下一次的扩容的阈值大小</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="type">int</span> sizeCtl;</span><br><span class="line"><span class="comment">// 整个 ConcurrentHashMap 就是一个 Node[]</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>.Entry&lt;K,V&gt; &#123;&#125;</span><br><span class="line"><span class="comment">// hash 表</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">volatile</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"><span class="comment">// 扩容时的 新 hash 表</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node&lt;K,V&gt;[] nextTable;</span><br><span class="line"><span class="comment">// 扩容时如果某个 bin 迁移完毕, 用 ForwardingNode 作为旧 table bin 的头结点</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ForwardingNode</span>&lt;K,V&gt; <span class="keyword">extends</span> <span class="title class_">Node</span>&lt;K,V&gt; &#123;&#125;</span><br><span class="line"><span class="comment">// 用在 compute 以及 computeIfAbsent 时, 用来占位, 计算完成后替换为普通 Node</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ReservationNode</span>&lt;K,V&gt; <span class="keyword">extends</span> <span class="title class_">Node</span>&lt;K,V&gt; &#123;&#125;</span><br><span class="line"><span class="comment">// 作为 treebin 的头节点, 存储 root 和 first</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">TreeBin</span>&lt;K,V&gt; <span class="keyword">extends</span> <span class="title class_">Node</span>&lt;K,V&gt; &#123;&#125;</span><br><span class="line"><span class="comment">// 作为 treebin 的节点, 存储 parent, left, right</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">TreeNode</span>&lt;K,V&gt; <span class="keyword">extends</span> <span class="title class_">Node</span>&lt;K,V&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ForwardingNode</p>
+<ul>
+<li>标记扩容时处理过的节点</li>
+<li>如果扩容的过程中有线程get（key），如果fnode，在新table里找</li>
+</ul>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220920180414288.png" alt="image-20220920180414288"></p>
+<h4 id="重要方法"><a href="#重要方法" class="headerlink" title="重要方法"></a>重要方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取 Node[] 中第 i 个 Node</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; Node&lt;K,V&gt; <span class="title function_">tabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="type">int</span> i)</span></span><br><span class="line"><span class="comment">// cas 修改 Node[] 中第 i 个 Node 的值, c 为旧值, v 为新值</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="type">boolean</span> <span class="title function_">casTabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="type">int</span> i, Node&lt;K,V&gt; c, Node&lt;K,V&gt; v)</span></span><br><span class="line"><span class="comment">// 直接修改 Node[] 中第 i 个 Node 的值, v 为新值</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="keyword">void</span> <span class="title function_">setTabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="type">int</span> i, Node&lt;K,V&gt; v)</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="构造器分析"><a href="#构造器分析" class="headerlink" title="构造器分析"></a>构造器分析</h4><p>懒惰的初始化，构造方法中仅仅计算了table的大小，第一次使用时才会真正创建</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">ConcurrentHashMap</span><span class="params">(<span class="type">int</span> initialCapacity, <span class="type">float</span> loadFactor, <span class="type">int</span> concurrencyLevel)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(loadFactor &gt; <span class="number">0.0f</span>) || initialCapacity &lt; <span class="number">0</span> || concurrencyLevel &lt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>();</span><br><span class="line">        <span class="keyword">if</span> (initialCapacity &lt; concurrencyLevel) <span class="comment">// Use at least as many bins</span></span><br><span class="line">            initialCapacity = concurrencyLevel; <span class="comment">// as estimated threads</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">size</span> <span class="operator">=</span> (<span class="type">long</span>)(<span class="number">1.0</span> + (<span class="type">long</span>)initialCapacity / loadFactor);</span><br><span class="line">		<span class="comment">// tableSizeFor 仍然是保证计算的大小是 2^n, 即 16,32,64 ...</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">cap</span> <span class="operator">=</span> (size &gt;= (<span class="type">long</span>)MAXIMUM_CAPACITY) ?</span><br><span class="line">                MAXIMUM_CAPACITY : tableSizeFor((<span class="type">int</span>)size);</span><br><span class="line">        <span class="built_in">this</span>.sizeCtl = cap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="get流程"><a href="#get流程" class="headerlink" title="get流程"></a>get流程</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="title function_">get</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">       Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; e, p; <span class="type">int</span> n, eh; K ek;</span><br><span class="line">	<span class="comment">// spread 方法能确保返回结果是正数</span></span><br><span class="line">       <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> spread(key.hashCode());</span><br><span class="line">       <span class="keyword">if</span> ((tab = table) != <span class="literal">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">               (e = tabAt(tab, (n - <span class="number">1</span>) &amp; h)) != <span class="literal">null</span>) &#123;</span><br><span class="line">		<span class="comment">// 如果头结点已经是要查找的 key</span></span><br><span class="line">           <span class="keyword">if</span> ((eh = e.hash) == h) &#123;</span><br><span class="line">               <span class="keyword">if</span> ((ek = e.key) == key || (ek != <span class="literal">null</span> &amp;&amp; key.equals(ek)))</span><br><span class="line">                   <span class="keyword">return</span> e.val;</span><br><span class="line">           &#125;</span><br><span class="line">		<span class="comment">// hash 为负数表示该 bin 在扩容中或是 treebin, 这时调用 find 方法来查找</span></span><br><span class="line">           <span class="keyword">else</span> <span class="keyword">if</span> (eh &lt; <span class="number">0</span>)</span><br><span class="line">               <span class="keyword">return</span> (p = e.find(h, key)) != <span class="literal">null</span> ? p.val : <span class="literal">null</span>;</span><br><span class="line">		<span class="comment">// 正常遍历链表, 用 equals 比较</span></span><br><span class="line">           <span class="keyword">while</span> ((e = e.next) != <span class="literal">null</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (e.hash == h &amp;&amp;</span><br><span class="line">                       ((ek = e.key) == key || (ek != <span class="literal">null</span> &amp;&amp; key.equals(ek))))</span><br><span class="line">                   <span class="keyword">return</span> e.val;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="put流程"><a href="#put流程" class="headerlink" title="put流程"></a>put流程</h4><p>不允许有空的键或值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> putVal(key, value, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> V <span class="title function_">putVal</span><span class="params">(K key, V value, <span class="type">boolean</span> onlyIfAbsent)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (key == <span class="literal">null</span> || value == <span class="literal">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>();</span><br><span class="line">		<span class="comment">// 其中 spread 方法会综合高位低位, 具有更好的 hash 性</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> spread(key.hashCode());</span><br><span class="line">        <span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Node&lt;K, V&gt;[] tab = table; ; ) &#123;</span><br><span class="line">        <span class="comment">// f 是链表头节点</span></span><br><span class="line">        <span class="comment">// fh 是链表头结点的 hash</span></span><br><span class="line">        <span class="comment">// i 是链表在 table 中的下标</span></span><br><span class="line">            Node&lt;K, V&gt; f;</span><br><span class="line">            <span class="type">int</span> n, i, fh;</span><br><span class="line">		   <span class="comment">// 要创建 table</span></span><br><span class="line">            <span class="keyword">if</span> (tab == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">			 <span class="comment">// 初始化 table 使用了 cas, 无需 synchronized 创建成功, 进入下一轮循环</span></span><br><span class="line">                tab = initTable();</span><br><span class="line">				<span class="comment">// 要创建链表头节点</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((f = tabAt(tab, i = (n - <span class="number">1</span>) &amp; hash)) == <span class="literal">null</span>) &#123;</span><br><span class="line">				<span class="comment">// 添加链表头使用了 cas, 无需 synchronized</span></span><br><span class="line">                <span class="keyword">if</span> (casTabAt(tab, i, <span class="literal">null</span>,</span><br><span class="line">                        <span class="keyword">new</span> <span class="title class_">Node</span>&lt;K, V&gt;(hash, key, value, <span class="literal">null</span>)))</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">				<span class="comment">// 帮忙扩容</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((fh = f.hash) == MOVED)</span><br><span class="line">				<span class="comment">// 帮忙之后, 进入下一轮循环</span></span><br><span class="line">                tab = helpTransfer(tab, f);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="type">V</span> <span class="variable">oldVal</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">				<span class="comment">// 锁住链表头节点</span></span><br><span class="line">                <span class="keyword">synchronized</span> (f) &#123;</span><br><span class="line">				<span class="comment">// 再次确认链表头节点没有被移动</span></span><br><span class="line">                    <span class="keyword">if</span> (tabAt(tab, i) == f) &#123;</span><br><span class="line">						<span class="comment">// 链表</span></span><br><span class="line">                        <span class="keyword">if</span> (fh &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            binCount = <span class="number">1</span>;</span><br><span class="line">							<span class="comment">// 遍历链表</span></span><br><span class="line">                            <span class="keyword">for</span> (Node&lt;K, V&gt; e = f; ; ++binCount) &#123;</span><br><span class="line">                                K ek;</span><br><span class="line">							<span class="comment">// 找到相同的 key</span></span><br><span class="line">                                <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                                        ((ek = e.key) == key ||</span><br><span class="line">                                                (ek != <span class="literal">null</span> &amp;&amp; key.equals(ek)))) &#123;</span><br><span class="line">                                    oldVal = e.val;</span><br><span class="line">								<span class="comment">// 更新</span></span><br><span class="line">                                    <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                                        e.val = value;</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                                Node&lt;K, V&gt; pred = e;</span><br><span class="line">							 <span class="comment">// 已经是最后的节点了, 新增 Node, 追加至链表尾</span></span><br><span class="line">                                <span class="keyword">if</span> ((e = e.next) == <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                                    pred.next = <span class="keyword">new</span> <span class="title class_">Node</span>&lt;K, V&gt;(hash, key,</span><br><span class="line">                                            value, <span class="literal">null</span>);</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">						<span class="comment">// 红黑树</span></span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> TreeBin) &#123;</span><br><span class="line">                            Node&lt;K, V&gt; p;</span><br><span class="line">                            binCount = <span class="number">2</span>;</span><br><span class="line">							<span class="comment">// putTreeVal 会看 key 是否已经在树中, 是, 则返回对应的 TreeNode</span></span><br><span class="line">                            <span class="keyword">if</span> ((p = ((TreeBin&lt;K, V&gt;) f).putTreeVal(hash, key,</span><br><span class="line">                                    value)) != <span class="literal">null</span>) &#123;</span><br><span class="line">                                oldVal = p.val;</span><br><span class="line">                                <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                                    p.val = value;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">				<span class="comment">// 释放链表头节点的锁</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binCount != <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD)</span><br><span class="line">						<span class="comment">// 如果链表长度 &gt;= 树化阈值(8), 进行链表转为红黑树</span></span><br><span class="line">                        treeifyBin(tab, i);</span><br><span class="line">                    <span class="keyword">if</span> (oldVal != <span class="literal">null</span>)</span><br><span class="line">                        <span class="keyword">return</span> oldVal;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="comment">// 增加 size 计数</span></span><br><span class="line">        addCount(<span class="number">1L</span>, binCount);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在桶下标冲突时会加锁，只对当前桶的链表头节点进行加锁</p>
+<h4 id="Size计算流程"><a href="#Size计算流程" class="headerlink" title="Size计算流程"></a>Size计算流程</h4><p>size 计算实际发生在 put，remove 改变集合元素的操作之中  </p>
+<ul>
+<li>没有竞争发生，向 baseCount 累加计数  </li>
+<li>有竞争发生，新建 counterCells，向其中的一个 cell 累加计数  <ul>
+<li>counterCells 初始有两个 cell  </li>
+<li>如果计数竞争比较激烈，会创建新的 cell 来累加计数</li>
+</ul>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>数组（Node） +（ 链表 Node | 红黑树 TreeNode ） 以下数组简称（table），链表简称（bin）  </p>
+<ul>
+<li>初始化，使用cas保证并发安全，懒惰初始化table</li>
+<li>树化，当 table.length &lt; 64 时，先尝试扩容，超过 64 时，并且 bin.length &gt; 8 时，会将链表树化，树化过程会用 synchronized 锁住链表头  </li>
+<li>put，如果该 bin 尚未创建，只需要使用 cas 创建 bin；如果已经有了，锁住链表头进行后续 put 操作，元素添加至 bin 的尾部  </li>
+<li>get，无锁操作仅需要保证可见性，扩容过程中 get 操作拿到的是 ForwardingNode 它会让 get 操作在新table 进行搜索  </li>
+<li>扩容，扩容时以 bin 为单位进行，需要对 bin 进行 synchronized，但这时妙的是其它竞争线程也不是无事可做，它们会帮助把其它 bin 进行扩容，扩容时平均只有 1&#x2F;6 的节点会把复制到新 table 中  </li>
+<li>size，元素个数保存在 baseCount 中，并发时的个数变动保存在 CounterCell[] 当中。最后统计数量时累加即可</li>
+</ul>
+<h1 id="计网"><a href="#计网" class="headerlink" title="计网"></a>计网</h1><h2 id="OSI七层"><a href="#OSI七层" class="headerlink" title="OSI七层"></a>OSI七层</h2><ul>
+<li><p>物理层,面向实际承担数据传输的物理媒体，传输单位是比特</p>
+<ul>
+<li>集线器</li>
+</ul>
+</li>
+<li><p>数据链路层，在物理层的基础上，实现帧的传输，具有成帧（在一段数据前后添加首尾构成帧）、透明传输（字符或比特填充的首尾定界法）、差错检测（奇偶校验、循环冗余校验CRC）</p>
+<ul>
+<li>停止等待协议</li>
+<li>后退N帧协议，即ARQ，连续ARQ</li>
+<li>选择重传协议，选择重传ARQ</li>
+<li>滑动窗口协议</li>
+<li>csma&#x2F;cd，先听后发、边听边发、冲突停止、延迟重发</li>
+<li>mac地址，硬件唯一的地址48bit</li>
+<li>网桥</li>
+<li>以太网交换机</li>
+</ul>
+</li>
+<li><p>网络层</p>
+<ul>
+<li>IP地址，网络号+主机号，A（8+24），B（16+16），C（24+8），D（32多播地址），E（保留）<ul>
+<li>全0表示本机，全1为广播地址</li>
+</ul>
+</li>
+<li>IP数据报，首部（固定部分20字节，有版本4，首部长度4，区分服务8，总长度16，标识8，标志3，片偏移12，生存时间ttl8，协议8，首部校验和16，源地址目的地址各4，可选字段是可变的1~40）+数据部分</li>
+<li>划分子网+子网掩码</li>
+<li>ICMP，网际控制报文协议<ul>
+<li>ICMP差错控制报文，终点不可达、源点抑制、时间超时、参数问题、改变路由</li>
+<li>ICMP询问报文，Ping使用的就是这个</li>
+</ul>
+</li>
+<li>路由协议<ul>
+<li>IGP，内部网关协议，RIP（距离向量路由算法，用UDP传送，位置在应用层）、OSPF（链路状态路由算法，位置在网络层）</li>
+<li>EGP，外部网关协议</li>
+</ul>
+</li>
+<li>IP组播</li>
+<li>网络地址转换NAT，本地地址转全球地址</li>
+<li>IPV6<ul>
+<li>更大的地址空间 32bit-&gt;128bit</li>
+<li>灵活的首部格式</li>
+<li>改进的选项</li>
+<li>允许协议继续扩充</li>
+<li>支持即插即用</li>
+<li>支持资源的预分配</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>运输层</p>
+<ul>
+<li>端到端的通信，传输单位报文</li>
+<li>UDP<ul>
+<li>无连接，发送数据之前不建立连接</li>
+<li>尽最大努力交付，不保证可靠交付，同时也不使用拥塞控制</li>
+<li>面向报文</li>
+<li>支持一对一、一对多、多对一、多对多，首部开销小，只有8个字节</li>
+</ul>
+</li>
+<li>TCP<ul>
+<li>有连接，发送数据之前，经过三次握手建立连接</li>
+<li>提供可靠交付</li>
+<li>面向字节流</li>
+<li>20个字节的首部</li>
+<li>拥塞控制<ul>
+<li>拥塞避免（指数增加）</li>
+<li>慢开始（线性增加）</li>
+<li>快重传</li>
+<li>快恢复</li>
+</ul>
+</li>
+<li>三次握手<ul>
+<li>A请求建立连接，发送SYN&#x3D;1，序号seq&#x3D;x</li>
+<li>B收到，回复SYN&#x3D;1,ACK&#x3D;1,序号seq&#x3D;x,确认号ack&#x3D;x+1</li>
+<li>A回复ACK&#x3D;1，确定号ack&#x3D;y+1</li>
+</ul>
+</li>
+<li>四次挥手<ul>
+<li>双方都可以请求断开连接</li>
+<li>A发送FIN&#x3D;1，序号seq&#x3D;x</li>
+<li>B确认收到，发送ACK&#x3D;1,seq&#x3D;y,ack&#x3D;x+1</li>
+<li>此时B继续发送，A继续接受</li>
+<li>B发送FIN&#x3D;1，ACK&#x3D;1,seq&#x3D;y,ack&#x3D;x+1</li>
+<li>A回复ACK&#x3D;1,seq&#x3D;x+1,ack&#x3D;y+1,并再等待2MSL（发送和回复的最大时间）时间，关闭连接</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>会话层</p>
+</li>
+<li><p>表示层</p>
+</li>
+<li><p>应用层</p>
+<ul>
+<li>DNS域名解析服务，端口53</li>
+<li>FTP文件传输协议，端口21</li>
+<li>MIME、SMTP、POP3</li>
+<li>HTTP，端口80<ul>
+<li>1.1和1.0<ul>
+<li>1.0发一次数据建立一次TCP连接</li>
+<li>1.1采用持续连接作为默认的工作方式，减少了工作开销</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>HTTPS，端口443<ul>
+<li>HTTP运行在TCP之上，所传输的内容就是明文，客户端和服务器端无法验证对方的身份，HTTPS运行在SSL&#x2F;TLS之上，SSL&#x2F;TLS运行在TCP之上，传输的内容经过加密，加密采用的对称加密，所用的秘钥用服务器方的证书进行了非对称加密，所以HTTPS安全性高，但开销大</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="TCPIP四层"><a href="#TCPIP四层" class="headerlink" title="TCPIP四层"></a>TCPIP四层</h2><ul>
+<li>应用层<ul>
+<li>HTTP、FTP、SMTP</li>
+</ul>
+</li>
+<li>运输层<ul>
+<li>TCP、UDP</li>
+</ul>
+</li>
+<li>网络层<ul>
+<li>ICMP、IGMP</li>
+<li>RARP（逆地址解析协议，mac-&gt;ip）、ARP(地址解析协议，ip-&gt;mac)</li>
+</ul>
+</li>
+<li>网络接口层</li>
+</ul>
+<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li>DDL：数据定义语言，定义数据库对象（数据库、表、字段）</li>
+<li>DML：数据操作语言，对数据的增删改</li>
+<li>DQL：数据查询语言，查询数据库中表的记录</li>
+<li>DCL：数据控制语言，创建数据库，控制数据库的控制权限</li>
+</ul>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	字段列表</span><br><span class="line">FROM</span><br><span class="line">	表名字段</span><br><span class="line">WHERE</span><br><span class="line">	条件列表</span><br><span class="line">GROUP BY</span><br><span class="line">	分组字段列表</span><br><span class="line">HAVING</span><br><span class="line">	分组后的条件列表</span><br><span class="line">ORDER BY</span><br><span class="line">	排序字段列表</span><br><span class="line">LIMIT</span><br><span class="line">	分页参数</span><br></pre></td></tr></table></figure>
+
+<h3 id="去除重复记录"><a href="#去除重复记录" class="headerlink" title="去除重复记录"></a>去除重复记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT 字段列表 FROM 表名;</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT 字段列表 FROM 表名;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>比较运算符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>&#x3D;</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&lt;&gt; 或 !&#x3D;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>BETWEEN … AND …</td>
+<td>在某个范围内（含最小、最大值）</td>
+</tr>
+<tr>
+<td>IN(…)</td>
+<td>在in之后的列表中的值，多选一</td>
+</tr>
+<tr>
+<td>LIKE 占位符</td>
+<td>模糊匹配（_匹配单个字符，%匹配任意个字符）</td>
+</tr>
+<tr>
+<td>IS NULL</td>
+<td>是NULL</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>逻辑运算符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AND 或 &amp;&amp;</td>
+<td>并且（多个条件同时成立）</td>
+</tr>
+<tr>
+<td>OR 或 &amp;#124;&amp;#124;</td>
+<td>或者（多个条件任意一个成立）</td>
+</tr>
+<tr>
+<td>NOT 或 !</td>
+<td>非，不是</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-- 年龄等于30</span><br><span class="line">select * from employee where age = 30;</span><br><span class="line">-- 年龄小于30</span><br><span class="line">select * from employee where age &lt; 30;</span><br><span class="line">-- 小于等于</span><br><span class="line">select * from employee where age &lt;= 30;</span><br><span class="line">-- 没有身份证</span><br><span class="line">select * from employee where idcard is null or idcard = &#x27;&#x27;;</span><br><span class="line">-- 有身份证</span><br><span class="line">select * from employee where idcard;</span><br><span class="line">select * from employee where idcard is not null;</span><br><span class="line">-- 不等于</span><br><span class="line">select * from employee where age != 30;</span><br><span class="line">-- 年龄在20到30之间</span><br><span class="line">select * from employee where age between 20 and 30;</span><br><span class="line">select * from employee where age &gt;= 20 and age &lt;= 30;</span><br><span class="line">-- 下面语句不报错，但查不到任何信息</span><br><span class="line">select * from employee where age between 30 and 20;</span><br><span class="line">-- 性别为女且年龄小于30</span><br><span class="line">select * from employee where age &lt; 30 and gender = &#x27;女&#x27;;</span><br><span class="line">-- 年龄等于25或30或35</span><br><span class="line">select * from employee where age = 25 or age = 30 or age = 35;</span><br><span class="line">select * from employee where age in (25, 30, 35);</span><br><span class="line">-- 姓名为两个字</span><br><span class="line">select * from employee where name like &#x27;__&#x27;;</span><br><span class="line">-- 身份证最后为X</span><br><span class="line">select * from employee where idcard like &#x27;%X&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count</td>
+<td>统计数量</td>
+</tr>
+<tr>
+<td>max</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>min</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>avg</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>sum</td>
+<td>求和</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT <span class="title function_">count</span><span class="params">(id)</span> from employee <span class="type">where</span> <span class="variable">workaddress</span> <span class="operator">=</span> <span class="string">&quot;广东省&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分组查询"><a href="#分组查询" class="headerlink" title="分组查询"></a>分组查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT 字段列表 FROM 表名 [ WHERE 条件 ] GROUP BY 分组字段名 [ HAVING 分组后的过滤条件 ];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-- 根据性别分组，统计男性和女性数量（只显示分组数量，不显示哪个是男哪个是女）</span><br><span class="line">select count(*) from employee group by gender;</span><br><span class="line">-- 根据性别分组，统计男性和女性数量</span><br><span class="line">select gender, count(*) from employee group by gender;</span><br><span class="line">-- 根据性别分组，统计男性和女性的平均年龄</span><br><span class="line">select gender, avg(age) from employee group by gender;</span><br><span class="line">-- 年龄小于45，并根据工作地址分组</span><br><span class="line">select workaddress, count(*) from employee where age &lt; 45 group by workaddress;</span><br><span class="line">-- 年龄小于45，并根据工作地址分组，获取员工数量大于等于3的工作地址</span><br><span class="line">select workaddress, count(*) address_count from employee where age &lt; 45 group by workaddress having address_count &gt;= 3;</span><br></pre></td></tr></table></figure>
+
+<h3 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT 字段列表 FROM 表名 ORDER BY 字段1 排序方式1, 字段2 排序方式2;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 根据年龄升序排序</span><br><span class="line">SELECT * FROM employee ORDER BY age ASC;</span><br><span class="line">SELECT * FROM employee ORDER BY age;</span><br><span class="line">-- 两字段排序，根据年龄升序排序，入职时间降序排序</span><br><span class="line">SELECT * FROM employee ORDER BY age ASC, entrydate DESC;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 查询第一页数据，展示<span class="number">10</span>条</span><br><span class="line">SELECT * FROM employee LIMIT <span class="number">0</span>, <span class="number">10</span>;</span><br><span class="line">-- 查询第二页</span><br><span class="line">SELECT * FROM employee LIMIT <span class="number">10</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM -&gt; WHERE -&gt; GROUP BY -&gt; SELECT -&gt; ORDER BY -&gt; LIMIT</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">-- 拼接</span><br><span class="line">SELECT CONCAT(&#x27;Hello&#x27;, &#x27;World&#x27;);</span><br><span class="line">-- 小写</span><br><span class="line">SELECT LOWER(&#x27;Hello&#x27;);</span><br><span class="line">-- 大写</span><br><span class="line">SELECT UPPER(&#x27;Hello&#x27;);</span><br><span class="line">-- 左填充</span><br><span class="line">SELECT LPAD(&#x27;01&#x27;, 5, &#x27;-&#x27;);</span><br><span class="line">-- 右填充</span><br><span class="line">SELECT RPAD(&#x27;01&#x27;, 5, &#x27;-&#x27;);</span><br><span class="line">-- 去除空格</span><br><span class="line">SELECT TRIM(&#x27; Hello World &#x27;);</span><br><span class="line">-- 切片（起始索引为1）</span><br><span class="line">SELECT SUBSTRING(&#x27;Hello World&#x27;, 1, 5);</span><br><span class="line">select</span><br><span class="line">	name,</span><br><span class="line">	(case when age &gt; 30 then &#x27;中年&#x27; else &#x27;青年&#x27; end)</span><br><span class="line">from employee;</span><br><span class="line">select</span><br><span class="line">	name,</span><br><span class="line">	(case workaddress when &#x27;北京市&#x27; then &#x27;一线城市&#x27; when &#x27;上海市&#x27; then &#x27;一线城市&#x27; else &#x27;二线城市&#x27; end) as &#x27;工作地址&#x27;</span><br><span class="line">from employee;</span><br></pre></td></tr></table></figure>
+
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><table>
+<thead>
+<tr>
+<th>非空约束</th>
+<th>限制该字段的数据不能为null</th>
+<th>NOT NULL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>约束</td>
+<td>描述</td>
+<td>关键字</td>
+</tr>
+<tr>
+<td>唯一约束</td>
+<td>保证该字段的所有数据都是唯一、不重复的</td>
+<td>UNIQUE</td>
+</tr>
+<tr>
+<td>主键约束</td>
+<td>主键是一行数据的唯一标识，要求非空且唯一</td>
+<td>PRIMARY KEY</td>
+</tr>
+<tr>
+<td>默认约束</td>
+<td>保存数据时，如果未指定该字段的值，则采用默认值</td>
+<td>DEFAULT</td>
+</tr>
+<tr>
+<td>检查约束（8.0.1版本后）</td>
+<td>保证字段值满足某一个条件</td>
+<td>CHECK</td>
+</tr>
+<tr>
+<td>外键约束</td>
+<td>用来让两张图的数据之间建立连接，保证数据的一致性和完整性</td>
+<td>FOREIGN KEY</td>
+</tr>
+</tbody></table>
+<h2 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h2><p>消除无效笛卡尔积：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from employee, dept where employee.dept = dept.id;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT 字段列表 FROM 表1 [ INNER ] JOIN 表2 ON 连接条件 ...;</span><br><span class="line">-- 查询员工姓名，及关联的部门的名称</span><br><span class="line">-- 隐式</span><br><span class="line">select e.name, d.name from employee as e, dept as d where e.dept = d.id;</span><br><span class="line">-- 显式</span><br><span class="line">select e.name, d.name from employee as e inner join dept as d on e.dept = d.id;</span><br></pre></td></tr></table></figure>
+
+<h3 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- 左</span><br><span class="line">-- 查询左表所有数据，以及两张表交集部分数据</span><br><span class="line">select e.*, d.name from employee as e left outer join dept as d on e.dept = d.id;</span><br><span class="line">select d.name, e.* from dept d left outer join emp e on e.dept = d.id;  -- 这条语句与下面的语句效果一样</span><br><span class="line">-- 右</span><br><span class="line">-- 查询右表所有数据，以及两张表交集部分数据</span><br><span class="line">select d.name, e.* from employee as e right outer join dept as d on e.dept = d.id;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自连接查询"><a href="#自连接查询" class="headerlink" title="自连接查询"></a>自连接查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 查询员工及其所属领导的名字</span><br><span class="line">select a.name, b.name from employee a, employee b where a.manager = b.id;</span><br><span class="line">-- 没有领导的也查询出来</span><br><span class="line">select a.name, b.name from employee a left join employee b on a.manager = b.id;</span><br></pre></td></tr></table></figure>
+
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 把多次查询的结果合并，形成一个新的查询集</span><br><span class="line">-- UNION ALL 会有重复结果，UNION 不会</span><br><span class="line">-- 联合查询比使用or效率高，不会使索引失效</span><br><span class="line">SELECT 字段列表 FROM 表A ...</span><br><span class="line">UNION [ALL]</span><br><span class="line">SELECT 字段列表 FROM 表B ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">-- 标量子查询</span><br><span class="line">-- 查询销售部所有员工</span><br><span class="line">select id from dept where name = &#x27;销售部&#x27;;</span><br><span class="line">-- 根据销售部部门ID，查询员工信息</span><br><span class="line">select * from employee where dept = 4;</span><br><span class="line">-- 合并（子查询）</span><br><span class="line">select * from employee where dept = (select id from dept where name = &#x27;销售部&#x27;);</span><br><span class="line"></span><br><span class="line">-- 查询xxx入职之后的员工信息</span><br><span class="line">select * from employee where entrydate &gt; (select entrydate from employee where name = &#x27;xxx&#x27;);</span><br><span class="line"></span><br><span class="line">-- 列子查询</span><br><span class="line">-- 查询销售部和市场部的所有员工信息</span><br><span class="line">select * from employee where dept in (select id from dept where name = &#x27;销售部&#x27; or name = &#x27;市场部&#x27;);</span><br><span class="line">-- 查询比财务部所有人工资都高的员工信息</span><br><span class="line">select * from employee where salary &gt; all(select salary from employee where dept = (select id from dept where name = &#x27;财务部&#x27;));</span><br><span class="line">-- 查询比研发部任意一人工资高的员工信息</span><br><span class="line">select * from employee where salary &gt; any (select salary from employee where dept = (select id from dept where name = &#x27;研发部&#x27;));</span><br><span class="line"></span><br><span class="line">-- 行子查询</span><br><span class="line">-- 查询与xxx的薪资及直属领导相同的员工信息</span><br><span class="line">select * from employee where (salary, manager) = (12500, 1);</span><br><span class="line">select * from employee where (salary, manager) = (select salary, manager from employee where name = &#x27;xxx&#x27;);</span><br><span class="line"></span><br><span class="line">-- 表子查询</span><br><span class="line">-- 查询与xxx1，xxx2的职位和薪资相同的员工</span><br><span class="line">select * from employee where (job, salary) in (select job, salary from employee where name = &#x27;xxx1&#x27; or name = &#x27;xxx2&#x27;);</span><br><span class="line">-- 查询入职日期是2006-01-01之后的员工，及其部门信息</span><br><span class="line">select e.*, d.* from (select * from employee where entrydate &gt; &#x27;2006-01-01&#x27;) as e left join dept as d on e.dept = d.id;</span><br></pre></td></tr></table></figure>
+
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一些列操作的集合，事务会把所有操作作为一个整体向系统提交或者撤销，这些操作要么同时成功，要么同时失败</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">-- 1. 查询张三账户余额</span><br><span class="line">select * from account where name = &#x27;张三&#x27;;</span><br><span class="line">-- 2. 将张三账户余额-1000</span><br><span class="line">update account set money = money - 1000 where name = &#x27;张三&#x27;;</span><br><span class="line">-- 此语句出错后张三钱减少但是李四钱没有增加</span><br><span class="line">模拟sql语句错误</span><br><span class="line">-- 3. 将李四账户余额+1000</span><br><span class="line">update account set money = money + 1000 where name = &#x27;李四&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查看事务提交方式</span><br><span class="line">SELECT @@AUTOCOMMIT;</span><br><span class="line">-- 设置事务提交方式，1为自动提交，0为手动提交，该设置只对当前会话有效</span><br><span class="line">SET @@AUTOCOMMIT = 0;</span><br><span class="line">-- 提交事务</span><br><span class="line">COMMIT;</span><br><span class="line">-- 回滚事务</span><br><span class="line">ROLLBACK;</span><br><span class="line"></span><br><span class="line">-- 设置手动提交后上面代码改为：</span><br><span class="line">select * from account where name = &#x27;张三&#x27;;</span><br><span class="line">update account set money = money - 1000 where name = &#x27;张三&#x27;;</span><br><span class="line">update account set money = money + 1000 where name = &#x27;李四&#x27;;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">start transaction;</span><br><span class="line">select * from account where name = &#x27;张三&#x27;;</span><br><span class="line">update account set money = money - 1000 where name = &#x27;张三&#x27;;</span><br><span class="line">update account set money = money + 1000 where name = &#x27;李四&#x27;;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h3><ul>
+<li>原子性，atomicity，事务是不可分割的最小操作单元，要么全成功，要么全失败</li>
+<li>一致性，consistency，事务完成时，数据保持一致，转账前后，总额不变</li>
+<li>隔离性，isolation，并发访问数据库时，一个事物不被其他事务干扰</li>
+<li>持久性，durability，事务提交后，对数据库中数据的改变是持久的</li>
+</ul>
+<p>一致性是目的，其他是手段</p>
+<h3 id="并发带来的问题"><a href="#并发带来的问题" class="headerlink" title="并发带来的问题"></a>并发带来的问题</h3><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>脏读</td>
+<td>一个事务读到另一个事务还没提交的数据</td>
+</tr>
+<tr>
+<td>不可重复读</td>
+<td>一个事务先后读取同一条记录，但两次读取的数据不同</td>
+</tr>
+<tr>
+<td>幻读</td>
+<td>一个事务按照条件查询数据时，没有对应的数据行，但是再插入数据时，又发现这行数据已经存在</td>
+</tr>
+</tbody></table>
+<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Read uncommitted</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Read committed</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Repeatable Read(默认)</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody></table>
+<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><ul>
+<li><p>连接层，完成类似于连接处理，授权认证、及相关的安全方案，服务器也会验证接入的客户端的权限</p>
+</li>
+<li><p>服务层，一些核心服务功能，比如sql接口，完成缓存的查询，sql的分析和优化，部分内置函数的执行</p>
+</li>
+<li><p>引擎层，真正负责mysql数据中的存储和提取，服务器通过api和存储引擎进行通信，不同的存储引擎有不同的功能</p>
+</li>
+<li><p>存储层，把数据存在文件系统上，并完成与存储引擎的交互</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 查询建表语句</span><br><span class="line">show create table account;</span><br><span class="line">-- 建表时指定存储引擎</span><br><span class="line">CREATE TABLE 表名(</span><br><span class="line">	...</span><br><span class="line">) ENGINE=INNODB;</span><br><span class="line">-- 查看当前数据库支持的存储引擎</span><br><span class="line">show engines;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><ul>
+<li>DML 操作遵循 ACID 模型，支持<strong>事务</strong></li>
+<li><strong>行级锁</strong>，提高并发访问性能</li>
+<li>支持外键约束，保证数据的完整性和正确性</li>
+</ul>
+<p><strong>.ibd:</strong> InnoDB为每张表都会创建一个该文件，存储表结构、数据和索引</p>
+<h3 id="MyIsam"><a href="#MyIsam" class="headerlink" title="MyIsam"></a>MyIsam</h3><ul>
+<li>不支持事务、外键</li>
+<li>支持表锁、不支持行锁</li>
+<li>访问速度快</li>
+</ul>
+<p>**.sdi:**存储表结构	**.myd:**存储数据	**myi:**存储索引</p>
+<h3 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h3><ul>
+<li><p>Memory 引擎的表数据是存储在内存中的，受硬件问题、断电问题的影响，只能将这些表作为<strong>临时表或缓存使用</strong></p>
+</li>
+<li><p>存放在内存中，速度快</p>
+</li>
+<li><p>0hash索引（默认）</p>
+</li>
+</ul>
+<p><strong>.sdi:</strong> 存储表结构信息</p>
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><ul>
+<li>InnoDB：对事物的完整性要求高，并发下的数据一致性，除了插入和查询，更新和删除也较多</li>
+<li>MyIsam：查询和插入较多，很少删除和更新，对事物的完整性和并发性要求不高</li>
+<li>Memory：临时表或缓存，无法保障数据安全性</li>
+</ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>高效获取数据的数据结构</p>
+<ul>
+<li>优点<ul>
+<li>极大的提高数据查询效率，降低数据库IO成本</li>
+<li>通过索引对数据进行排序，降低排序成本</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>需占用空间</li>
+<li>降低了更新效率，如增删改</li>
+</ul>
+</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p>顺序插入，形成一个链表，查询性能大大降低，大量数据下，层级较深，检索速度慢</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>大量数据下，层级较深，检索速度慢</p>
+<h3 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h3><p>m阶B树每个节点最多存m-1个数</p>
+<p>先加四个</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908220320409.png" alt="image-20220908220320409"></p>
+<p>再加1200</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908220437429.png" alt="image-20220908220437429"></p>
+<p>再加1234,1234比345大，走右侧，放在1200后面</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908220544406.png" alt="image-20220908220544406"></p>
+<p>再加1500</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908220614423.png" alt="image-20220908220614423"></p>
+<p>再加1000，需要放在899和1200之间，这时需要变化了，中间元素1200向上分裂</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908220917226.png" alt="image-20220908220917226"></p>
+<p>……</p>
+<p>……</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908221015115.png" alt="image-20220908221015115"></p>
+<p>再加2456，最右侧又成5个了，1980向上分裂，导致第一层（1200）也需要向上分裂</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220908221148706.png" alt="image-20220908221148706"></p>
+<h3 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h3><ul>
+<li>所有数据存在叶子结点</li>
+<li>叶子结点形成一个单向链表</li>
+<li>非叶子结点仅仅起到索引数据的作用</li>
+<li>Mysql优化后，叶子结点增加了一个指向相邻叶子结点的指针，提高区间访问的性能，利于排序</li>
+</ul>
+<p>选择B+树的原因</p>
+<ul>
+<li>相对于二叉树，层级少，搜索效率高</li>
+<li>相对于B树，无论叶子结点还是非叶子结点都会保存数据（而一个节点通过一个磁盘块&#x2F;页来存放的，大小是固定的16k），导致一页中的存储键值减少，指针跟着减少，要同样保存大量数据，只能增加树的高度，导致性能降低</li>
+<li>相对hash索引，b+树支持范围匹配及排序操作</li>
+</ul>
+<h3 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h3><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>含义</th>
+<th>特点</th>
+<th>关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主键索引</td>
+<td>针对于表中主键创建的索引</td>
+<td>默认自动创建，只能有一个</td>
+<td>PRIMARY</td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>避免同一个表中某数据列中的值重复</td>
+<td>可以有多个</td>
+<td>UNIQUE</td>
+</tr>
+<tr>
+<td>常规索引</td>
+<td>快速定位特定数据</td>
+<td>可以有多个</td>
+<td></td>
+</tr>
+<tr>
+<td>全文索引</td>
+<td>全文索引查找的是文本中的关键词，而不是比较索引中的值</td>
+<td>可以有多个</td>
+<td>FULLTEXT</td>
+</tr>
+</tbody></table>
+<p>在 InnoDB 存储引擎中，根据索引的存储形式，又可以分为以下两种：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>含义</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>聚集索引(Clustered Index)</td>
+<td>将数据存储与索引放一块，索引结构的叶子节点保存了行数据</td>
+<td>必须有，而且只有一个</td>
+</tr>
+<tr>
+<td>二级索引(Secondary Index)</td>
+<td>将数据与索引分开存储，索引结构的叶子节点关联的是对应的主键</td>
+<td>可以存在多个</td>
+</tr>
+</tbody></table>
+<ul>
+<li>聚集索引构成的B+树，叶子结点挂的是那一行的行数据</li>
+<li>二级索引再存数据的话，就冗余了，所以存的是对应行的行id</li>
+</ul>
+<p><strong>聚集索引的选取规则</strong></p>
+<ul>
+<li>如果存在主键，主键索引就是聚集索引</li>
+<li>如果不存在主键，使用第一个UNIQUE索引作为聚集索引</li>
+<li>如果没有合适的唯一索引，InnoDB自动创建一个行号最为隐藏的聚集索引</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 哪条sql语句的执行效率高？</span><br><span class="line">select * from user where id = 10;</span><br><span class="line">select * from user where name = &#x27;Arm&#x27;;</span><br><span class="line">-- 备注：id为主键，name字段创建的有索引</span><br><span class="line">-- 答：第一条语句，因为第二条需要回表查询，相当于两个步骤。</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用规则"><a href="#使用规则" class="headerlink" title="使用规则"></a>使用规则</h3><ul>
+<li><p>最左前缀法则</p>
+<p>使用了联合索引的话，从最左列开始，不跳过索引中的列，不然索引失效</p>
+</li>
+</ul>
+<h3 id="索引失效情况"><a href="#索引失效情况" class="headerlink" title="索引失效情况"></a>索引失效情况</h3><ol>
+<li><p>在索引上进行位运算</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_user where substring(phone, 10, 2) = &#x27;15&#x27;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符 串类型字段使用时，不加引号，索引将失效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_user where phone = 17799990015;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模糊查询中，如果仅仅是尾部模糊匹配，索引不会是失效；如果是头部模糊匹配，索引失效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_user where profession like &#x27;%工程&#x27;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用 or 分割开的条件，如果 or 其中一个条件的列没有索引，那么涉及的索引都不会被用到</p>
+</li>
+<li><p>如果 MySQL 评估使用索引比全表更慢，则不使用索引。</p>
+</li>
+</ol>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>当字段类型为字符串（varchar, text等）时，有时候需要索引很长的字符串，这会让索引变得很大，查询时，浪费大量的磁盘IO，影响查询效率，此时可以只降字符串的一部分前缀，建立索引，这样可以大大节约索引空间，从而提高索引效率。</p>
+<h3 id="单列-amp-联合索引"><a href="#单列-amp-联合索引" class="headerlink" title="单列&amp;联合索引"></a>单列&amp;联合索引</h3><ul>
+<li>单列索引：即一个索引只包含单个列</li>
+<li>联合索引：即一个索引包含了多个列</li>
+</ul>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>视图（View）是一种虚拟存在的表。视图中的数据并不在数据库中实际存在，行和列数据来自定义视图的查询中使用的表，并且是在使用视图时动态生成的。  </p>
+<h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><p>存储过程是事先经过编译并存储在数据库中的一段 SQL 语句的集合，调用存储过程可以简化应用开发人员的很多工作，减少数据在数据库和应用服务器之间的传输，对于提高数据处理的效率是有好处的。存储过程思想上很简单，就是数据库 SQL 语言层面的代码封装与重用。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE 存储过程名称 ([ 参数列表 ])</span><br><span class="line">BEGIN</span><br><span class="line">-- SQL语句</span><br><span class="line">END ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h3><p>游标（CURSOR）是用来存储查询结果集的数据类型 , 在存储过程和函数中可以使用游标对结果集进行循环的处理。  </p>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><p>触发器是与表有关的数据库对象，指在insert&#x2F;update&#x2F;delete之前(BEFORE)或之后(AFTER)，触发并执行触发器中定义的SQL语句集合。触发器的这种特性可以协助应用在数据库端确保数据的完整性, 日志记录 , 数据校验等操作 </p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><ul>
+<li><p>全局锁</p>
+<p>​		全局锁就是对整个数据库实例加锁，加锁后整个实例就处于只读状态，后续的DML的写语句，DDL语<br>句，已经更新操作的事务提交语句都将被阻塞。典型使用场景，全库的逻辑备份的时候</p>
+<ul>
+<li>如果在主库上备份，那么在备份期间都不能执行更新，业务基本上就得停摆。</li>
+<li>如果在从库上备份，那么在备份期间从库不能执行主库同步过来的二进制日志（binlog），会导致主从延迟。</li>
+</ul>
+</li>
+<li><p>表级锁</p>
+<p>​	表级锁，每次操作锁住整张表。锁定粒度大，发生锁冲突的概率最高，并发度最低  </p>
+</li>
+<li><p>行级锁</p>
+<p>​		每次操作锁住对应的行数据。锁定粒度最小，发生锁冲突的概率最低，并发度最高。应用在InnoDB</p>
+</li>
+</ul>
+<h3 id="行级锁注意事项"><a href="#行级锁注意事项" class="headerlink" title="行级锁注意事项"></a>行级锁注意事项</h3><p>InnoDB的行锁针对的是索引字段，表级锁针对非索引字段。如果where条件中的字段没命中索引或是索引失效，会导致全表扫描，对表中所有行记录进行加锁</p>
+<h3 id="共享锁和排她锁"><a href="#共享锁和排她锁" class="headerlink" title="共享锁和排她锁"></a>共享锁和排她锁</h3><p>无论表级锁还是行级锁都有<strong>S锁和X锁</strong></p>
+<ul>
+<li>共享锁（S锁）：读锁，事务在读取记录的时候获取共享锁，允许多个事务同时获取（锁兼容）。</li>
+<li>排他锁（X锁）：写锁&#x2F;独占锁，事务在修改记录的时候获取排他锁，不允许多个事务同时获取。如果一个记录已经被加了排他锁，那其他事务不能再对这条事务加任何类型的锁</li>
+</ul>
+<h3 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h3><p>用到表锁的时候，用来快速判断表中是否有行锁</p>
+<ul>
+<li>意向共享锁（IS）：事务对表中的某些行加共享锁必须先获得表的IS锁</li>
+<li>意向排他锁（IX）：事务对表中的某些行加排他锁必须先获得表的IX锁</li>
+<li>IS和S兼容，其他的互斥，指的是表级别的</li>
+</ul>
+<h3 id="InnoDB的行锁"><a href="#InnoDB的行锁" class="headerlink" title="InnoDB的行锁"></a>InnoDB的行锁</h3><ul>
+<li>记录锁</li>
+<li>间隙锁</li>
+<li>临键锁</li>
+</ul>
+<h2 id="InnoDB引擎"><a href="#InnoDB引擎" class="headerlink" title="InnoDB引擎"></a>InnoDB引擎</h2><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925022149413.png" alt="image-20220925022149413"></p>
+<p>表空间-&gt;段（B+树的叶子结点）-&gt;区（1m,64个页，一次性申请4~5个区，以保证页是连续的）-&gt;页（16kb）-&gt;行</p>
+<ul>
+<li>bufferpool，缓冲池，访问硬盘和内存速度相差很大，为尽可能弥补之间的差值，需要把经常使用的数据加到缓冲池中</li>
+<li>changebuffer，更改缓冲区，DML时，如果数据不在缓冲池中，不会直接操作硬盘，先存在更改缓冲区，未来数据被读取时，将数据恢复合并到缓冲池中，并将合并后的数据刷到磁盘中</li>
+<li>adaptive hash index，自适应哈希索引，优化缓冲池数据的查询</li>
+<li>log buffer，日志缓冲区，定时刷新到磁盘中，节省磁盘IO</li>
+</ul>
+<p>后台线程：</p>
+<ul>
+<li>MasterThread</li>
+<li>IoThead</li>
+<li>PurgeThread</li>
+<li>PageCleanerThread</li>
+</ul>
+<p>事务原理</p>
+<ul>
+<li>redolog，重做日志，记录的是事务提交时数据页的物理修改，是用来实现事务的持久性<ul>
+<li>redologbuffer,重做日志缓冲</li>
+<li>redologfile重做日志文件</li>
+</ul>
+</li>
+</ul>
+<p>​		当对缓冲区的数据进行增删改之后，会首先将操作的数据页的变化，记录在redolog buffer中。在事务提交时，会将redo log buffer中的数据刷新到redo log磁盘文件中。过一段时间之后，如果刷新缓冲区的脏页到磁盘时，发生错误，此时就可以借助于redo log进行数据恢复，这样就保证了事务的持久性。 而如果脏页成功刷新到磁盘 或 或者涉及到的数据已经落盘，此时redolog就没有作用了，就可以删除了，所以存在的两个redolog文件是循环写的。</p>
+<p>​		<strong>为什么每一次提交事务，要刷新redo log 到磁盘中呢，而不是直接将buffer pool中的脏页刷新到磁盘呢 ?</strong>  </p>
+<p>​		因为在业务操作中，我们操作数据一般都是随机读写磁盘的，而不是顺序读写磁盘。 而redo log在往磁盘文件中写入数据，由于是日志文件，所以都是顺序写的。顺序写的效率，要远大于随机写。 这种先写日志的方式，称之为 WAL（Write-Ahead Logging）。  	</p>
+<ul>
+<li>undo log  ，回滚日志，用于记录数据被修改前的信息  <ul>
+<li>提供回滚(保证事务的原子性）</li>
+<li>mvcc（多版本并发控制）</li>
+</ul>
+</li>
+</ul>
+<p><strong>Undo log销毁：</strong>undo log在事务执行时产生，事务提交时，并不会立即删除undolog，因为这些日志可能还用于MVCC（更新和删除数据的时候）。  </p>
+<p><strong>Undo log存储：</strong>undo log采用段的方式进行管理和记录，存放在前面介绍的 rollback segment回滚段中，内部包含1024个undo log segment。  </p>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><ul>
+<li>当前读：读取的是记录的<strong>最新</strong>版本，读取时还要保证其他并发事务不能修改当前记录，即加锁(共享锁或排它锁)，会对读取的记录进行加锁。</li>
+<li>快照读：简单的select（不加锁）就是快照读，快照读，读取的是记录数据的<strong>可见版本，有可能是历史数据</strong>，不加锁，是非阻塞读。  <ul>
+<li>RC，每次select，都生成一个快照度</li>
+<li>RR，开启事务后，第一个select语句才是快照读的地方</li>
+</ul>
+</li>
+<li>mvcc：指维护一个数据的多个版本，使得读写操作没有冲突，快照读为MySQL实现mvcc提供了一个非阻塞读功能。mvcc的具体实现，还需要依赖于数据库记录中的三个隐式字段、undo log日志、readView。</li>
+</ul>
+<h3 id="隐藏字段"><a href="#隐藏字段" class="headerlink" title="隐藏字段"></a>隐藏字段</h3><p>每个表中有三个隐藏字段</p>
+<ul>
+<li>最近修改事务id，记录插入这条记录或最后一次修改该记录的事务id。</li>
+<li>回滚指针，指向这条记录的上一个版本，用于配合undo log，指向上一个版本。</li>
+<li>隐藏主键，如果表结构没有指定主键，将会生成该隐藏字段。</li>
+</ul>
+<h3 id="undolog版本连"><a href="#undolog版本连" class="headerlink" title="undolog版本连"></a>undolog版本连</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925020532233.png" alt="image-20220925020532233"></p>
+<h3 id="ReadView"><a href="#ReadView" class="headerlink" title="ReadView"></a>ReadView</h3><p>记录并维护系统当前活跃的事务id，也就是未提交事务的id<img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925020716171.png" alt="image-20220925020716171"><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925020900371.png" alt="image-20220925020900371"><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925020927755.png" alt="image-20220925020927755"></p>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><h4 id="RC（读取已提交）隔离级别"><a href="#RC（读取已提交）隔离级别" class="headerlink" title="RC（读取已提交）隔离级别"></a>RC（读取已提交）隔离级别</h4><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925021503480.png" alt="image-20220925021503480"></p>
+<h4 id="RR（可重复读）隔离级别"><a href="#RR（可重复读）隔离级别" class="headerlink" title="RR（可重复读）隔离级别"></a>RR（可重复读）隔离级别</h4><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925021648618.png" alt="image-20220925021648618"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20220925021744720.png" alt="image-20220925021744720"></p>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><h3 id="错误日志"><a href="#错误日志" class="headerlink" title="错误日志"></a>错误日志</h3><p>它记录了当 mysqld 启动和停止时，以及服务器在运行过程中发生任何严重错误时的相关信息  </p>
+<h3 id="二进制日志（binlog）"><a href="#二进制日志（binlog）" class="headerlink" title="二进制日志（binlog）"></a>二进制日志（binlog）</h3><p>二进制日志（BINLOG）记录了所有的 DDL（数据定义语言）语句和 DML（数据操纵语言）语句，但不包括数据查询（SELECT、SHOW）语句  </p>
+<ul>
+<li>灾难性的数据恢复</li>
+<li>mysql的主从复制</li>
+</ul>
+<h3 id="查询日志"><a href="#查询日志" class="headerlink" title="查询日志"></a>查询日志</h3><p>查询日志中记录了客户端的所有操作语句  </p>
+<h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h3><p>慢查询日志记录了所有执行时间超过参数 long_query_time 设置值并且扫描记录数不小于min_examined_row_limit 的所有的SQL语句的日志  </p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2022/09/01/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">http://example.com/2022/09/01/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/09/02/DP%E7%BB%8F%E5%85%B8/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">DP经典</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/30/%E7%BA%A0%E9%94%99/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">二刷记录</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/10/01/%E9%9D%A2%E8%AF%95/" title="面试记录"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-01</div><div class="title">面试记录</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA"><span class="toc-number">1.</span> <span class="toc-text">JAVA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">内存模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">字节码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="toc-number">1.3.</span> <span class="toc-text">常量池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="toc-number">1.4.</span> <span class="toc-text">直接内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.5.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK%E5%92%8CJRE"><span class="toc-number">1.6.</span> <span class="toc-text">JDK和JRE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JAVA%E5%92%8CC"><span class="toc-number">1.7.</span> <span class="toc-text">JAVA和C++</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">1.8.</span> <span class="toc-text">成员变量和局部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E8%B0%83%E7%94%A8%E9%9D%9E%E9%9D%99%E6%80%81%E6%88%90%E5%91%98"><span class="toc-number">1.9.</span> <span class="toc-text">静态方法为什么不能调用非静态成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99"><span class="toc-number">1.10.</span> <span class="toc-text">重载和重写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85%E8%A3%85%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.11.</span> <span class="toc-text">包装和基本类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-number">1.12.</span> <span class="toc-text">包装类型的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BD%93%E5%92%8C%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="toc-number">1.13.</span> <span class="toc-text">对象实体和对象引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E5%BE%81"><span class="toc-number">1.14.</span> <span class="toc-text">面向对象三大特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-number">1.15.</span> <span class="toc-text">接口和抽象类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E3%80%81%E6%B5%85%E3%80%81%E5%BC%95%E7%94%A8%E6%8B%B7%E8%B4%9D"><span class="toc-number">1.16.</span> <span class="toc-text">深、浅、引用拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x3D-x3D-%E5%92%8Cequals%EF%BC%88%EF%BC%89"><span class="toc-number">1.17.</span> <span class="toc-text">&#x3D;&#x3D;和equals（）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashCode%EF%BC%88%EF%BC%89"><span class="toc-number">1.18.</span> <span class="toc-text">hashCode（）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E3%80%81StringBuilder%E3%80%81StringBuffer"><span class="toc-number">1.19.</span> <span class="toc-text">String、StringBuilder、StringBuffer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B"><span class="toc-number">1.20.</span> <span class="toc-text">泛型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">1.21.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">1.22.</span> <span class="toc-text">注解的解析方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.23.</span> <span class="toc-text">序列化反序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transient"><span class="toc-number">1.24.</span> <span class="toc-text">transient</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO%E6%B5%81"><span class="toc-number">1.25.</span> <span class="toc-text">IO流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%B8%AD3%E7%A7%8D%E5%B8%B8%E8%A7%81IO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.26.</span> <span class="toc-text">Java中3种常见IO模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-number">1.27.</span> <span class="toc-text">容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%AE%B9%E5%99%A8"><span class="toc-number">1.28.</span> <span class="toc-text">为什么要用容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayList%E4%B8%8ELinkedList"><span class="toc-number">1.29.</span> <span class="toc-text">ArrayList与LinkedList</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayList%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="toc-number">1.30.</span> <span class="toc-text">ArrayList扩容机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F%E6%80%A7%E5%92%8C%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7"><span class="toc-number">1.31.</span> <span class="toc-text">无序性和不可重复性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashSet%E3%80%81LinkedHashSet%E3%80%81TreeSet"><span class="toc-number">1.32.</span> <span class="toc-text">HashSet、LinkedHashSet、TreeSet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Queue%E5%92%8CDeque"><span class="toc-number">1.33.</span> <span class="toc-text">Queue和Deque</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayDeque%E5%92%8CLinkedList"><span class="toc-number">1.34.</span> <span class="toc-text">ArrayDeque和LinkedList</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PriorityQueue"><span class="toc-number">1.35.</span> <span class="toc-text">PriorityQueue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E5%92%8CHashTable"><span class="toc-number">1.36.</span> <span class="toc-text">HashMap和HashTable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E5%92%8CHashSet"><span class="toc-number">1.37.</span> <span class="toc-text">HashMap和HashSet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E5%92%8CTreeMap"><span class="toc-number">1.38.</span> <span class="toc-text">HashMap和TreeMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashSet%E5%A6%82%E4%BD%95%E6%A3%80%E6%9F%A5%E9%87%8D%E5%A4%8D"><span class="toc-number">1.39.</span> <span class="toc-text">HashSet如何检查重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.40.</span> <span class="toc-text">HashMap底层实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E7%9A%84%E9%95%BF%E5%BA%A6%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF2%E7%9A%84%E5%B9%82%E6%AC%A1%E6%96%B9"><span class="toc-number">1.41.</span> <span class="toc-text">HashMap的长度为什么是2的幂次方</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM"><span class="toc-number">2.</span> <span class="toc-text">JVM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-1"><span class="toc-number">2.1.</span> <span class="toc-text">内存模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-number">2.2.</span> <span class="toc-text">垃圾回收</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E5%9B%9E%E6%94%B6%EF%BC%9F"><span class="toc-number">2.2.1.</span> <span class="toc-text">如何判断对象可以回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">引用计数法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">可达性分析算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GC%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.2.</span> <span class="toc-text">GC算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">标记清除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">标记整理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">复制算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6"><span class="toc-number">2.2.3.</span> <span class="toc-text">分代回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">2.2.4.</span> <span class="toc-text">垃圾回收器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number">2.3.</span> <span class="toc-text">类加载和字节码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">2.3.1.</span> <span class="toc-text">类文件结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E6%8C%87%E4%BB%A4"><span class="toc-number">2.3.2.</span> <span class="toc-text">字节码指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#i-%E5%92%8C-i"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">i++和++i</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">方法调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E5%8E%9F%E7%90%86"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">多态原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">2.3.2.5.</span> <span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#synchronized"><span class="toc-number">2.3.2.6.</span> <span class="toc-text">synchronized</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E5%A4%84%E7%90%86"><span class="toc-number">2.3.3.</span> <span class="toc-text">编译器处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="toc-number">2.3.4.</span> <span class="toc-text">类加载阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD"><span class="toc-number">2.3.4.1.</span> <span class="toc-text">加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">2.3.4.2.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.3.4.3.</span> <span class="toc-text">初始化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="toc-number">2.3.5.</span> <span class="toc-text">类加载器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="toc-number">2.3.6.</span> <span class="toc-text">运行期优化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%B3%E6%97%B6%E7%BC%96%E8%AF%91"><span class="toc-number">2.3.6.0.1.</span> <span class="toc-text">即时编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%86%85%E8%81%94"><span class="toc-number">2.3.6.0.2.</span> <span class="toc-text">方法内联</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E4%BC%98%E5%8C%96"><span class="toc-number">2.3.6.0.3.</span> <span class="toc-text">字段优化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E4%BC%98%E5%8C%96"><span class="toc-number">2.3.6.0.4.</span> <span class="toc-text">反射优化</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMM"><span class="toc-number">2.4.</span> <span class="toc-text">JMM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="toc-number">2.4.1.</span> <span class="toc-text">原子性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">2.4.2.</span> <span class="toc-text">可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="toc-number">2.4.3.</span> <span class="toc-text">有序性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E5%8E%9F%E7%90%86"><span class="toc-number">2.4.4.</span> <span class="toc-text">volatile原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#happens-before"><span class="toc-number">2.4.5.</span> <span class="toc-text">happens-before</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS%E4%B8%8E%E5%8E%9F%E5%AD%90%E7%B1%BB"><span class="toc-number">2.4.6.</span> <span class="toc-text">CAS与原子类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">2.4.7.</span> <span class="toc-text">乐观锁和悲观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB"><span class="toc-number">2.4.8.</span> <span class="toc-text">原子操作类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E4%BC%98%E5%8C%96"><span class="toc-number">2.4.9.</span> <span class="toc-text">synchronized优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="toc-number">2.4.9.1.</span> <span class="toc-text">对象头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81"><span class="toc-number">2.4.9.2.</span> <span class="toc-text">轻量级锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%81%E8%86%A8%E8%83%80"><span class="toc-number">2.4.9.3.</span> <span class="toc-text">锁膨胀</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E9%87%8F%E9%94%81"><span class="toc-number">2.4.9.4.</span> <span class="toc-text">重量锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%8F%E5%90%91%E9%94%81"><span class="toc-number">2.4.9.5.</span> <span class="toc-text">偏向锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96"><span class="toc-number">2.4.9.6.</span> <span class="toc-text">其他优化</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OS"><span class="toc-number">3.</span> <span class="toc-text">OS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OS%EF%BC%9F"><span class="toc-number">3.1.</span> <span class="toc-text">OS？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">系统调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">进程和线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91"><span class="toc-number">3.4.</span> <span class="toc-text">并行和并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">3.5.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">3.6.</span> <span class="toc-text">进程间通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E6%96%B9%E5%BC%8F"><span class="toc-number">3.7.</span> <span class="toc-text">线程间同步方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">3.8.</span> <span class="toc-text">进程调度算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">3.9.</span> <span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="toc-number">3.9.1.</span> <span class="toc-text">四个必要条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">3.9.2.</span> <span class="toc-text">解决方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">3.10.</span> <span class="toc-text">内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6"><span class="toc-number">3.10.1.</span> <span class="toc-text">管理机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E5%92%8C%E5%88%86%E6%AE%B5-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.10.2.</span> <span class="toc-text">分页和分段 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E8%A1%A8%E5%92%8C%E5%A4%9A%E7%BA%A7%E9%A1%B5%E8%A1%A8"><span class="toc-number">3.10.3.</span> <span class="toc-text">快表和多级页表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4%E5%92%8CCPU%E5%AF%BB%E5%9D%80"><span class="toc-number">3.10.4.</span> <span class="toc-text">虚拟地址空间和CPU寻址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">3.11.</span> <span class="toc-text">虚拟内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">3.11.1.</span> <span class="toc-text">局部性原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-number">3.11.2.</span> <span class="toc-text">虚拟存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E7%9A%84%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.11.3.</span> <span class="toc-text">虚拟存储的技术实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">3.11.4.</span> <span class="toc-text">页面置换算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JUC"><span class="toc-number">4.</span> <span class="toc-text">JUC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91-1"><span class="toc-number">4.1.</span> <span class="toc-text">并行和并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="toc-number">4.2.</span> <span class="toc-text">java线程创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number">4.3.</span> <span class="toc-text">线程运行原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2"><span class="toc-number">4.4.</span> <span class="toc-text">上下文切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95"><span class="toc-number">4.5.</span> <span class="toc-text">常见方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#start%E4%B8%8Erun"><span class="toc-number">4.5.1.</span> <span class="toc-text">start与run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yield"><span class="toc-number">4.5.2.</span> <span class="toc-text">yield</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#join"><span class="toc-number">4.5.3.</span> <span class="toc-text">join</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#interrupt"><span class="toc-number">4.5.4.</span> <span class="toc-text">interrupt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#park"><span class="toc-number">4.5.5.</span> <span class="toc-text">park</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">4.6.</span> <span class="toc-text">主线程和守护进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">4.7.</span> <span class="toc-text">五种状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">4.8.</span> <span class="toc-text">多线程带来的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%92%E6%96%A5"><span class="toc-number">4.8.1.</span> <span class="toc-text">互斥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5"><span class="toc-number">4.8.2.</span> <span class="toc-text">同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E9%98%BB%E5%A1%9E%E5%BC%8F"><span class="toc-number">4.8.3.</span> <span class="toc-text">synchronized(阻塞式)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="toc-number">4.8.4.</span> <span class="toc-text">安全分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%B1%BB"><span class="toc-number">4.9.</span> <span class="toc-text">常见线程安全类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%A4%B4-1"><span class="toc-number">4.10.</span> <span class="toc-text">对象头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monitor"><span class="toc-number">4.11.</span> <span class="toc-text">Monitor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized%E8%BF%9B%E9%98%B6"><span class="toc-number">4.12.</span> <span class="toc-text">synchronized进阶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#waitnotify"><span class="toc-number">4.13.</span> <span class="toc-text">waitnotify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep-long-n-%E5%92%8Cwait-long-n-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.14.</span> <span class="toc-text">sleep(long n)和wait(long n)的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#park%E5%92%8Cunpark"><span class="toc-number">4.15.</span> <span class="toc-text">park和unpark</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E7%90%86%E8%A7%A3%E7%8A%B6%E6%80%81"><span class="toc-number">4.16.</span> <span class="toc-text">重新理解状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B4%BB%E8%B7%83%E6%80%A7"><span class="toc-number">4.17.</span> <span class="toc-text">活跃性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantLock%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81"><span class="toc-number">4.18.</span> <span class="toc-text">ReentrantLock可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E9%94%81"><span class="toc-number">4.19.</span> <span class="toc-text">无锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.20.</span> <span class="toc-text">不可变类的设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#final%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">4.20.1.</span> <span class="toc-text">final的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E6%80%A7%E6%8B%B7%E8%B4%9D"><span class="toc-number">4.20.2.</span> <span class="toc-text">保护性拷贝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.21.</span> <span class="toc-text">享元模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final%E5%8E%9F%E7%90%86"><span class="toc-number">4.22.</span> <span class="toc-text">final原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">4.23.</span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%8A%B6%E6%80%81"><span class="toc-number">4.23.1.</span> <span class="toc-text">线程池状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95-1"><span class="toc-number">4.23.2.</span> <span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#newFixedThreadPool"><span class="toc-number">4.23.3.</span> <span class="toc-text">newFixedThreadPool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#newCachedThreadPool"><span class="toc-number">4.23.4.</span> <span class="toc-text">newCachedThreadPool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#newSingleThreadExecutor"><span class="toc-number">4.23.5.</span> <span class="toc-text">newSingleThreadExecutor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.23.6.</span> <span class="toc-text">提交任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">4.23.7.</span> <span class="toc-text">关闭线程池</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JUC-1"><span class="toc-number">4.24.</span> <span class="toc-text">JUC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS"><span class="toc-number">4.24.1.</span> <span class="toc-text">AQS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConCurrentHashMapJDK8"><span class="toc-number">4.24.2.</span> <span class="toc-text">ConCurrentHashMapJDK8</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E5%B1%9E%E6%80%A7%E5%92%8C%E5%86%85%E9%83%A8%E7%B1%BB"><span class="toc-number">4.24.2.1.</span> <span class="toc-text">重要属性和内部类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-number">4.24.2.2.</span> <span class="toc-text">重要方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%99%A8%E5%88%86%E6%9E%90"><span class="toc-number">4.24.2.3.</span> <span class="toc-text">构造器分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get%E6%B5%81%E7%A8%8B"><span class="toc-number">4.24.2.4.</span> <span class="toc-text">get流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#put%E6%B5%81%E7%A8%8B"><span class="toc-number">4.24.2.5.</span> <span class="toc-text">put流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Size%E8%AE%A1%E7%AE%97%E6%B5%81%E7%A8%8B"><span class="toc-number">4.24.2.6.</span> <span class="toc-text">Size计算流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.24.2.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%BD%91"><span class="toc-number">5.</span> <span class="toc-text">计网</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82"><span class="toc-number">5.1.</span> <span class="toc-text">OSI七层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCPIP%E5%9B%9B%E5%B1%82"><span class="toc-number">5.2.</span> <span class="toc-text">TCPIP四层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql"><span class="toc-number">6.</span> <span class="toc-text">Mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">6.1.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.2.</span> <span class="toc-text">查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E8%AE%B0%E5%BD%95"><span class="toc-number">6.2.1.</span> <span class="toc-text">去除重复记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.2.2.</span> <span class="toc-text">条件查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0"><span class="toc-number">6.2.3.</span> <span class="toc-text">聚合函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.2.4.</span> <span class="toc-text">分组查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.2.5.</span> <span class="toc-text">排序查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.2.6.</span> <span class="toc-text">分页查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">6.2.7.</span> <span class="toc-text">执行顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">6.3.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F"><span class="toc-number">6.4.</span> <span class="toc-text">约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.5.</span> <span class="toc-text">多表查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.5.1.</span> <span class="toc-text">内连接查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.5.2.</span> <span class="toc-text">外连接查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.5.3.</span> <span class="toc-text">自连接查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.5.4.</span> <span class="toc-text">联合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.5.5.</span> <span class="toc-text">子查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">6.6.</span> <span class="toc-text">事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ACID"><span class="toc-number">6.6.1.</span> <span class="toc-text">ACID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">6.6.2.</span> <span class="toc-text">并发带来的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">6.6.3.</span> <span class="toc-text">隔离级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E6%93%8E"><span class="toc-number">6.7.</span> <span class="toc-text">引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB"><span class="toc-number">6.7.1.</span> <span class="toc-text">InnoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyIsam"><span class="toc-number">6.7.2.</span> <span class="toc-text">MyIsam</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory"><span class="toc-number">6.7.3.</span> <span class="toc-text">Memory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9"><span class="toc-number">6.7.4.</span> <span class="toc-text">选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">6.8.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">6.8.1.</span> <span class="toc-text">二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-number">6.8.2.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B%E6%A0%91"><span class="toc-number">6.8.3.</span> <span class="toc-text">B树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91"><span class="toc-number">6.8.4.</span> <span class="toc-text">B+树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%86%E7%B1%BB"><span class="toc-number">6.8.5.</span> <span class="toc-text">索引分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99"><span class="toc-number">6.8.6.</span> <span class="toc-text">使用规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E6%83%85%E5%86%B5"><span class="toc-number">6.8.7.</span> <span class="toc-text">索引失效情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95"><span class="toc-number">6.8.8.</span> <span class="toc-text">前缀索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%88%97-amp-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-number">6.8.9.</span> <span class="toc-text">单列&amp;联合索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE"><span class="toc-number">6.9.</span> <span class="toc-text">视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">6.9.1.</span> <span class="toc-text">存储过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%A0%87"><span class="toc-number">6.9.2.</span> <span class="toc-text">游标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">6.9.3.</span> <span class="toc-text">触发器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%81"><span class="toc-number">6.10.</span> <span class="toc-text">锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E7%BA%A7%E9%94%81%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">6.10.1.</span> <span class="toc-text">行级锁注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E6%8E%92%E5%A5%B9%E9%94%81"><span class="toc-number">6.10.2.</span> <span class="toc-text">共享锁和排她锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%84%8F%E5%90%91%E9%94%81"><span class="toc-number">6.10.3.</span> <span class="toc-text">意向锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB%E7%9A%84%E8%A1%8C%E9%94%81"><span class="toc-number">6.10.4.</span> <span class="toc-text">InnoDB的行锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB%E5%BC%95%E6%93%8E"><span class="toc-number">6.11.</span> <span class="toc-text">InnoDB引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVCC"><span class="toc-number">6.12.</span> <span class="toc-text">MVCC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E8%97%8F%E5%AD%97%E6%AE%B5"><span class="toc-number">6.12.1.</span> <span class="toc-text">隐藏字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undolog%E7%89%88%E6%9C%AC%E8%BF%9E"><span class="toc-number">6.12.2.</span> <span class="toc-text">undolog版本连</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReadView"><span class="toc-number">6.12.3.</span> <span class="toc-text">ReadView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="toc-number">6.12.4.</span> <span class="toc-text">原理分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RC%EF%BC%88%E8%AF%BB%E5%8F%96%E5%B7%B2%E6%8F%90%E4%BA%A4%EF%BC%89%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">6.12.4.1.</span> <span class="toc-text">RC（读取已提交）隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RR%EF%BC%88%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%EF%BC%89%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">6.12.4.2.</span> <span class="toc-text">RR（可重复读）隔离级别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">6.13.</span> <span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97"><span class="toc-number">6.13.1.</span> <span class="toc-text">错误日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97%EF%BC%88binlog%EF%BC%89"><span class="toc-number">6.13.2.</span> <span class="toc-text">二进制日志（binlog）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">6.13.3.</span> <span class="toc-text">查询日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">6.13.4.</span> <span class="toc-text">慢查询日志</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/09/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" title="每日一题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="每日一题"/></a><div class="content"><a class="title" href="/2022/10/09/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" title="每日一题">每日一题</a><time datetime="2022-10-09T07:23:32.000Z" title="Created 2022-10-09 15:23:32">2022-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/01/%E9%9D%A2%E8%AF%95/" title="面试记录"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试记录"/></a><div class="content"><a class="title" href="/2022/10/01/%E9%9D%A2%E8%AF%95/" title="面试记录">面试记录</a><time datetime="2022-10-01T07:23:32.000Z" title="Created 2022-10-01 15:23:32">2022-10-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/25/%E9%9A%8F%E6%83%B3%E5%BD%95/" title="随想"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="随想"/></a><div class="content"><a class="title" href="/2022/09/25/%E9%9A%8F%E6%83%B3%E5%BD%95/" title="随想">随想</a><time datetime="2022-09-25T07:23:32.000Z" title="Created 2022-09-25 15:23:32">2022-09-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/15/%E7%BB%8F%E5%85%B8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E9%A2%98/" title="二分搜索"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二分搜索"/></a><div class="content"><a class="title" href="/2022/09/15/%E7%BB%8F%E5%85%B8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E9%A2%98/" title="二分搜索">二分搜索</a><time datetime="2022-09-15T07:23:32.000Z" title="Created 2022-09-15 15:23:32">2022-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/10/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" title="背包问题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="背包问题"/></a><div class="content"><a class="title" href="/2022/09/10/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" title="背包问题">背包问题</a><time datetime="2022-09-10T07:23:32.000Z" title="Created 2022-09-10 15:23:32">2022-09-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
