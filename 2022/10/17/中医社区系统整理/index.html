@@ -1,0 +1,499 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>中医社区系统整理 | TQYSH</title><meta name="keywords" content="项目"><meta name="author" content="yasooh"><meta name="copyright" content="yasooh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="微服务架构单体业务功能集中在一个项目中，打成一个包部署 优点：  架构简单 部署成本低  缺点：  耦合度高（维护困难、升级困难）  分布式架构根据业务功能对系统做拆分，每个业务功能模块作为独立项目开发，称为一个服务。 优点：  降低服务耦合 有利于服务升级和拓展  缺点：  服务调用关系错综复杂  问题：  拆分粒度如何界定 服务之间如何调用 调用关系如何管理  微服务架构特征：  单一职责：拆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中医社区系统整理">
+<meta property="og:url" content="http://example.com/2022/10/17/%E4%B8%AD%E5%8C%BB%E7%A4%BE%E5%8C%BA%E7%B3%BB%E7%BB%9F%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="TQYSH">
+<meta property="og:description" content="微服务架构单体业务功能集中在一个项目中，打成一个包部署 优点：  架构简单 部署成本低  缺点：  耦合度高（维护困难、升级困难）  分布式架构根据业务功能对系统做拆分，每个业务功能模块作为独立项目开发，称为一个服务。 优点：  降低服务耦合 有利于服务升级和拓展  缺点：  服务调用关系错综复杂  问题：  拆分粒度如何界定 服务之间如何调用 调用关系如何管理  微服务架构特征：  单一职责：拆">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-10-17T07:19:32.000Z">
+<meta property="article:modified_time" content="2022-10-20T05:18:56.104Z">
+<meta property="article:author" content="yasooh">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/10/17/%E4%B8%AD%E5%8C%BB%E7%A4%BE%E5%8C%BA%E7%B3%BB%E7%BB%9F%E6%95%B4%E7%90%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '中医社区系统整理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-20 13:18:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/QQ%E5%9B%BE%E7%89%8720221013163946.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">TQYSH</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">中医社区系统整理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-17T07:19:32.000Z" title="发表于 2022-10-17 15:19:32">2022-10-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-10-20T05:18:56.104Z" title="更新于 2022-10-20 13:18:56">2022-10-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="中医社区系统整理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="微服务架构"><a href="#微服务架构" class="headerlink" title="微服务架构"></a>微服务架构</h1><h2 id="单体"><a href="#单体" class="headerlink" title="单体"></a>单体</h2><p>业务功能集中在一个项目中，打成一个包部署</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>架构简单</li>
+<li>部署成本低</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>耦合度高（维护困难、升级困难）</li>
+</ul>
+<h2 id="分布式架构"><a href="#分布式架构" class="headerlink" title="分布式架构"></a>分布式架构</h2><p>根据业务功能对系统做拆分，每个业务功能模块作为独立项目开发，称为一个服务。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>降低服务耦合</li>
+<li>有利于服务升级和拓展</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>服务调用关系错综复杂</li>
+</ul>
+<p><strong>问题：</strong></p>
+<ul>
+<li>拆分粒度如何界定</li>
+<li>服务之间如何调用</li>
+<li>调用关系如何管理</li>
+</ul>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>架构特征：</p>
+<ul>
+<li>单一职责：拆分粒度更小，每一个服务对应唯一的业务能力，做到单一职责</li>
+<li>自治：团队独立、技术独立、数据独立、独立部署和交付</li>
+<li>面向服务：服务提供统一标准的接口，与语言和技术无关</li>
+<li>隔离性强：服务调用做好隔离、容错、降级、避免出现级联问题</li>
+</ul>
+<p>微服务的上述特性其实是在给分布式架构制定一个标准，进一步降低服务之间的耦合度，提供服务的独立性和灵活性。做到高内聚低耦合。</p>
+<ul>
+<li>SpringCloud</li>
+<li>SpringCloud-alibaba</li>
+</ul>
+<h2 id="SpringCloud"><a href="#SpringCloud" class="headerlink" title="SpringCloud"></a>SpringCloud</h2><p>SpringCloud集成了各种微服务功能组件，并基于SpringBoot实现了这些组件的自动装配，从而提供了良好的开箱即用体验。</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221017160250213.png" alt="image-20221017160250213"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>单体架构：简单方便，高度耦合，扩展性差，适合小型项目。例如：学生管理系统</p>
+</li>
+<li><p>分布式架构：松耦合，扩展性好，但架构复杂，难度大。适合大型互联网项目，例如：京东、淘宝</p>
+</li>
+<li><p>微服务：一种良好的分布式架构方案</p>
+<p>①优点：拆分粒度更小、服务更独立、耦合度更低</p>
+<p>②缺点：架构非常复杂，运维、监控、部署难度提高</p>
+</li>
+<li><p>SpringCloud是微服务架构的一站式解决方案，集成了各种优秀微服务功能组件</p>
+</li>
+</ul>
+<h1 id="拆分与调用"><a href="#拆分与调用" class="headerlink" title="拆分与调用"></a>拆分与调用</h1><ul>
+<li>不同微服务，不重复开发相同业务</li>
+<li>微服务数据独立，不访问其他微服务的数据库</li>
+<li>将自己的业务暴露为借口，供其他微服务调用</li>
+</ul>
+<p><strong>服务提供者</strong>：一次业务中，被其它微服务调用的服务。（提供接口给其它微服务）</p>
+<p><strong>服务消费者</strong>：一次业务中，调用其它微服务的服务。（调用其它微服务提供的接口）</p>
+<h1 id="Eureka注册中心"><a href="#Eureka注册中心" class="headerlink" title="Eureka注册中心"></a>Eureka注册中心</h1><ul>
+<li>order-service在发起远程调用的时候，该如何得知user-service实例的ip地址和端口？</li>
+<li>有多个user-service实例地址，order-service调用时该如何选择？</li>
+<li>order-service如何得知某个user-service实例是否依然健康，是不是已经宕机？</li>
+</ul>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221017163802271.png" alt="image-20221017163802271"></p>
+<p>问题1：消费者如何知道提供者的实例地址？</p>
+<ul>
+<li>user-service服务实例启动后，将自己的信息注册到eureka-server（Eureka服务端），称为<strong>服务注册</strong></li>
+<li>eureka-server保存服务名称到服务实例地址列表的映射关系</li>
+<li>order-service根据服务名称，拉取实例地址列表。这个叫<strong>服务发现或服务拉取</strong><ul>
+<li>（服务发现、服务注册统一都封装在eureka-client依赖）</li>
+</ul>
+</li>
+</ul>
+<p>问题2：消费者如何从多个提供者实例中选择具体的地址?</p>
+<ul>
+<li>order-service从实例列表中利用<strong>负载均衡算法</strong>选中一个实例地址</li>
+<li>向该实例地址发起远程调用</li>
+</ul>
+<p>问题3：消费者如何得知某个提供者实例是否依然健康，是不是已经宕机?</p>
+<ul>
+<li>提供者每隔一段时间（默认30s）向eureka-server发起请求，报告自己状态，称为心跳</li>
+<li>超过一定时间没发心跳时，eureka-server会认为微服务实例故障，将该实例从服务列表中剔除</li>
+<li>消费者拉取服务时，就能将故障实例排除了</li>
+</ul>
+<h1 id="Nacos与Eureka的区别"><a href="#Nacos与Eureka的区别" class="headerlink" title="Nacos与Eureka的区别"></a>Nacos与Eureka的区别</h1><p>Nacos和Eureka整体结构类似，服务注册、服务拉取、心跳等待，但是也存在一些差异：</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221017173212012.png" alt="image-20221017173212012"></p>
+<ul>
+<li>Nacos与eureka的共同点<ul>
+<li>都支持服务注册和服务拉取</li>
+<li>都支持服务提供者心跳方式做健康检测</li>
+</ul>
+</li>
+<li>Nacos与Eureka的区别<ul>
+<li>Nacos支持服务端主动检测提供者状态：临时实例采用心跳模式，非临时实例采用主动检测模式</li>
+<li>临时实例心跳不正常会被剔除，非临时实例则不会被剔除</li>
+<li>Nacos支持服务列表变更的消息推送模式，服务列表更新更及时</li>
+<li>Nacos集群默认采用AP方式，当集群中存在非临时实例时，采用CP模式；Eureka采用AP方式</li>
+</ul>
+</li>
+</ul>
+<h1 id="Ribbon负载均衡"><a href="#Ribbon负载均衡" class="headerlink" title="Ribbon负载均衡"></a>Ribbon负载均衡</h1><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221017171143324.png" alt="image-20221017171143324"></p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221017171936195.png" alt="image-20221017171936195"></p>
+<p>基本流程如下：</p>
+<ul>
+<li>拦截我们的RestTemplate请求<a target="_blank" rel="noopener" href="http://userservice/user/1">http://userservice/user/1</a></li>
+<li>RibbonLoadBalancerClient会从请求url中获取服务名称，也就是user-service</li>
+<li>DynamicServerListLoadBalancer根据user-service到eureka拉取服务列表</li>
+<li>eureka返回列表，localhost:8081、localhost:8082</li>
+<li>IRule利用内置负载均衡规则，从列表中选择一个，例如localhost:8081</li>
+<li>RibbonLoadBalancerClient修改请求地址，用localhost:8081替代userservice，得到<a target="_blank" rel="noopener" href="http://localhost:8081/user/1%EF%BC%8C%E5%8F%91%E8%B5%B7%E7%9C%9F%E5%AE%9E%E8%AF%B7%E6%B1%82">http://localhost:8081/user/1，发起真实请求</a></li>
+</ul>
+<h3 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h3><p>负载均衡的规则都定义在IRule接口中，而IRule有很多不同的实现类：</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221017172143324.png" alt="image-20221017172143324"></p>
+<p>不同规则的含义如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>内置负载均衡规则类</strong></th>
+<th><strong>规则描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RoundRobinRule</td>
+<td>简单轮询服务列表来选择服务器。它是Ribbon默认的负载均衡规则。</td>
+</tr>
+<tr>
+<td>AvailabilityFilteringRule</td>
+<td>对以下两种服务器进行忽略：   （1）在默认情况下，这台服务器如果3次连接失败，这台服务器就会被设置为“短路”状态。短路状态将持续30秒，如果再次连接失败，短路的持续时间就会几何级地增加。  （2）并发数过高的服务器。如果一个服务器的并发连接数过高，配置了AvailabilityFilteringRule规则的客户端也会将其忽略。并发连接数的上限，可以由客户端的<clientName>.<clientConfigNameSpace>.ActiveConnectionsLimit属性进行配置。</td>
+</tr>
+<tr>
+<td>WeightedResponseTimeRule</td>
+<td>为每一个服务器赋予一个权重值。服务器响应时间越长，这个服务器的权重就越小。这个规则会随机选择服务器，这个权重值会影响服务器的选择。</td>
+</tr>
+<tr>
+<td><strong>ZoneAvoidanceRule</strong></td>
+<td>以区域可用的服务器为基础进行服务器的选择。使用Zone对服务器进行分类，这个Zone可以理解为一个机房、一个机架等。而后再对Zone内的多个服务做轮询。</td>
+</tr>
+<tr>
+<td>BestAvailableRule</td>
+<td>忽略那些短路的服务器，并选择并发数较低的服务器。</td>
+</tr>
+<tr>
+<td>RandomRule</td>
+<td>随机选择一个可用的服务器。</td>
+</tr>
+<tr>
+<td>RetryRule</td>
+<td>重试机制的选择逻辑</td>
+</tr>
+</tbody></table>
+<p>默认的实现就是ZoneAvoidanceRule，是一种轮询方案</p>
+<h3 id="饥饿加载"><a href="#饥饿加载" class="headerlink" title="饥饿加载"></a>饥饿加载</h3><p>Ribbon默认是采用懒加载，即第一次访问时才会去创建LoadBalanceClient，请求时间会很长，而饥饿加载则会在项目启动时创建，降低第一次访问的耗时，通过下面配置开启饥饿加载：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ribbon:</span></span><br><span class="line">  <span class="comment">#配置饥饿加载策略</span></span><br><span class="line">  <span class="attr">eager-load:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">clients:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">tcm-cloud-hystrix-acgpart</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">tcm-cloud-hystrix-userpart</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">tcm-cloud-hystrix-communitypart</span></span><br><span class="line">  <span class="comment">#建立连接后从服务器读到可用资源时间限制（空是显示bug）</span></span><br><span class="line">  <span class="attr">RedTimeout:</span> <span class="number">20000</span></span><br><span class="line">  <span class="comment">#建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用时间限制</span></span><br><span class="line">  <span class="attr">ConnectTimeout:</span> <span class="number">20000</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Feign远程调用"><a href="#Feign远程调用" class="headerlink" title="Feign远程调用"></a>Feign远程调用</h1><p>直接以url的形式远程调用</p>
+<ul>
+<li>代码可读性差、变成体验不统一</li>
+<li>参数复杂URL难以维护</li>
+</ul>
+<p>Feign是一个声明式的http客户端，帮我们优雅的实现http请求的发送，解决上述问题</p>
+<p>使用步骤如下</p>
+<p><strong>1）引依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2）加注解</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConsumerMain</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(ConsumerMain.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3）写客户端</strong></p>
+<p>在consumer-feign里新建接口</p>
+<p>这个客户端主要是基于SpringMVC的注解来声明远程调用的信息，比如：</p>
+<ul>
+<li>服务名称：userservice</li>
+<li>请求方式：GET</li>
+<li>请求路径：&#x2F;user&#x2F;{id}</li>
+<li>请求参数：Long id</li>
+<li>返回值类型：User</li>
+</ul>
+<p>这样，Feign就可以帮助我们发送http请求，无需自己使用RestTemplate来发送了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//根据eureka里的微服务客户端信息转交给对应微服务提供者</span></span><br><span class="line"><span class="comment">//feign自带负载均衡，会在微服务提供者之间进行轮询或其他负载均衡办法</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@FeignClient(value = &quot;TCM-CLOUD-HYSTRIX-USERPART&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserFeignService</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user/test&quot;)</span></span><br><span class="line">    Result&lt;JSONObject&gt; <span class="title function_">getTest</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="GateWay服务网关"><a href="#GateWay服务网关" class="headerlink" title="GateWay服务网关"></a>GateWay服务网关</h1><p>旨在为微服务架构提供一种简单有效的统一的API的路由方式</p>
+<p>GateWay网关是服务的守门神，所有微服务的统一入口。</p>
+<p><strong>核心功能特性：</strong></p>
+<ul>
+<li>请求路由</li>
+<li>权限控制</li>
+<li>限流</li>
+</ul>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221018123803118.png" alt="image-20221018123803118"></p>
+<p><strong>权限控制：</strong>网关作为微服务入口，需要检验用户是否有请求资格，没有就进行拦截</p>
+<p><strong>路由和负载均衡：</strong>一切请求经过gateway，根据某种规则转发到某个微服务，这叫<strong>路由</strong>，当路由的目标有多个时需要做负载均衡</p>
+<p><strong>限流：</strong>当请求流量过高，在网关中按照下流的微服务能够接受的速度来放行请求，避免服务压力过大。</p>
+<p>在SpringCloud中网关的实现包括两种：</p>
+<ul>
+<li>gateway</li>
+<li>zuul</li>
+</ul>
+<p>Zuul是基于Servlet的实现，属于阻塞式编程。而SpringCloudGateway则是基于Spring5中提供的WebFlux，属于响应式编</p>
+<p>程的实现，具备更好的性能。</p>
+<p><strong>1）创建GateWay服务引入依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-gateway<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2）编写启动类</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="comment">//作为客户端注册进eureka</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GatewayMain</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(GatewayMain.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3）编写基础配置和路由规则</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8009</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="comment">#路由ID，唯一</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">userpart_routh</span></span><br><span class="line">          <span class="comment">#匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">http://127.0.0.1:8004</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="comment">#userpart发给consumer</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/user/**</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">community_routh</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">http://127.0.0.1:8004</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/community/**</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">acgpart_routh</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">http://127.0.0.1:8004</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/acg/**</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">oauth_routh</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">http://127.0.0.1:8006</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/oauth/**</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">es_routh</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">http://127.0.0.1:8008</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/es/**</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">websocket_routh</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">ws://127.0.0.1:8007</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/websocket/**</span></span><br><span class="line">      <span class="attr">globalcors:</span></span><br><span class="line">        <span class="string">cors‐configurations:</span></span><br><span class="line">          <span class="string">&#x27;[/**]&#x27;</span><span class="string">:</span> <span class="comment"># 匹配所有请求</span></span><br><span class="line">            <span class="attr">allowedOrigins:</span> <span class="string">&quot;*&quot;</span> <span class="comment">#跨域处理 允许所有的域</span></span><br><span class="line">            <span class="attr">allowedMethods:</span> <span class="comment"># 支持的方法</span></span><br><span class="line">              <span class="bullet">-</span> <span class="string">GET</span></span><br><span class="line">              <span class="bullet">-</span> <span class="string">POST</span></span><br><span class="line">              <span class="bullet">-</span> <span class="string">PATCH</span></span><br><span class="line">              <span class="bullet">-</span> <span class="string">DELETE</span></span><br><span class="line">              <span class="bullet">-</span> <span class="string">PUT</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>总结：</strong></p>
+<p>网关搭建步骤：</p>
+<ol>
+<li><p>创建项目，引入nacos服务发现和gateway依赖</p>
+</li>
+<li><p>配置application.yml，包括服务基本信息、nacos地址、路由</p>
+</li>
+</ol>
+<p>路由配置包括：</p>
+<ol>
+<li><p>路由id：路由的唯一标示</p>
+</li>
+<li><p>路由目标（uri）：路由的目标地址，http代表固定地址，lb代表根据服务名负载均衡</p>
+</li>
+<li><p>路由断言（predicates）：判断路由的规则，</p>
+</li>
+<li><p>路由过滤器（filters）：对请求或响应做处理</p>
+</li>
+</ol>
+<h2 id="断言工厂"><a href="#断言工厂" class="headerlink" title="断言工厂"></a>断言工厂</h2><p>我们在配置文件中写的断言规则只是字符串，这些字符串会被Predicate Factory读取并处理，转变为路由判断的条件</p>
+<p>例如Path&#x3D;&#x2F;user&#x2F;**是按照路径匹配，这个规则是由</p>
+<p><code>org.springframework.cloud.gateway.handler.predicate.PathRoutePredicateFactory</code>类来</p>
+<p>处理的，像这样的断言工厂在SpringCloudGateway还有十几个:</p>
+<table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>After</td>
+<td>是某个时间点后的请求</td>
+<td>-  After&#x3D;2037-01-20T17:42:47.789-07:00[America&#x2F;Denver]</td>
+</tr>
+<tr>
+<td>Before</td>
+<td>是某个时间点之前的请求</td>
+<td>-  Before&#x3D;2031-04-13T15:14:47.433+08:00[Asia&#x2F;Shanghai]</td>
+</tr>
+<tr>
+<td>Between</td>
+<td>是某两个时间点之前的请求</td>
+<td>-  Between&#x3D;2037-01-20T17:42:47.789-07:00[America&#x2F;Denver],  2037-01-21T17:42:47.789-07:00[America&#x2F;Denver]</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>请求必须包含某些cookie</td>
+<td>- Cookie&#x3D;chocolate, ch.p</td>
+</tr>
+<tr>
+<td>Header</td>
+<td>请求必须包含某些header</td>
+<td>- Header&#x3D;X-Request-Id, \d+</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>请求必须是访问某个host（域名）</td>
+<td>-  Host&#x3D;<strong>.somehost.org,</strong>.anotherhost.org</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>请求方式必须是指定方式</td>
+<td>- Method&#x3D;GET,POST</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>请求路径必须符合指定规则</td>
+<td>- Path&#x3D;&#x2F;red&#x2F;{segment},&#x2F;blue&#x2F;**</td>
+</tr>
+<tr>
+<td>Query</td>
+<td>请求参数必须包含指定参数</td>
+<td>- Query&#x3D;name, Jack或者-  Query&#x3D;name</td>
+</tr>
+<tr>
+<td>RemoteAddr</td>
+<td>请求者的ip必须是指定范围</td>
+<td>- RemoteAddr&#x3D;192.168.1.1&#x2F;24</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td>权重处理</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="过滤器工厂"><a href="#过滤器工厂" class="headerlink" title="过滤器工厂"></a>过滤器工厂</h2><p>GatewayFilter是网关中提供的一种过滤器，可以对进入网关的请求和微服务返回的响应做处理：</p>
+<p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221018131852274.png" alt="image-20221018131852274"></p>
+<p>Spring提供了31种不同的路由过滤器工厂。例如：</p>
+<table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AddRequestHeader</td>
+<td>给当前请求添加一个请求头</td>
+</tr>
+<tr>
+<td>RemoveRequestHeader</td>
+<td>移除请求中的一个请求头</td>
+</tr>
+<tr>
+<td>AddResponseHeader</td>
+<td>给响应结果中添加一个响应头</td>
+</tr>
+<tr>
+<td>RemoveResponseHeader</td>
+<td>从响应结果中移除有一个响应头</td>
+</tr>
+<tr>
+<td>RequestRateLimiter</td>
+<td>限制请求的流量</td>
+</tr>
+</tbody></table>
+<p><strong>请求头过滤器：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">user-service</span> </span><br><span class="line">        <span class="attr">uri:</span> <span class="string">lb://userservice</span> </span><br><span class="line">        <span class="attr">predicates:</span> </span><br><span class="line">        <span class="bullet">-</span> <span class="string">Path=/user/**</span> </span><br><span class="line">        <span class="attr">filters:</span> <span class="comment"># 过滤器</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">AddRequestHeader=Truth,</span> <span class="string">Itcast</span> <span class="string">is</span> <span class="string">freaking</span> <span class="string">awesome!</span> <span class="comment"># 添加请求头</span></span><br></pre></td></tr></table></figure>
+
+<p>当前过滤器写在userservice路由下，因此仅仅对访问userservice的请求有效。</p>
+<p><strong>默认过滤器</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">user-service</span> </span><br><span class="line">        <span class="attr">uri:</span> <span class="string">lb://userservice</span> </span><br><span class="line">        <span class="attr">predicates:</span> </span><br><span class="line">        <span class="bullet">-</span> <span class="string">Path=/user/**</span></span><br><span class="line">      <span class="attr">default-filters:</span> <span class="comment"># 默认过滤项</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">AddRequestHeader=Truth,</span> <span class="string">Itcast</span> <span class="string">is</span> <span class="string">freaking</span> <span class="string">awesome!</span> </span><br></pre></td></tr></table></figure>
+
+<p><strong>全局过滤器</strong></p>
+<p>在filter中编写自定义逻辑，可以实现下列功能：</p>
+<ul>
+<li>登录状态判断</li>
+<li>权限校验</li>
+<li>请求限流等</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//对需要鉴权的url，调用鉴权服务校验身份，通过则网关转发，否则直接返回。</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AccessGatewayFilter</span> <span class="keyword">implements</span> <span class="title class_">GlobalFilter</span>, Ordered &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AuthClient authClient;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Mono&lt;Void&gt; <span class="title function_">filter</span><span class="params">(ServerWebExchange exchange, GatewayFilterChain chain)</span> &#123;</span><br><span class="line">        <span class="type">ServerHttpRequest</span> <span class="variable">request</span> <span class="operator">=</span> exchange.getRequest();</span><br><span class="line">        log.info(request.getMethod().name());</span><br><span class="line">        log.info(request.toString());</span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> request.getPath().value();</span><br><span class="line">        log.info(<span class="string">&quot;url：&quot;</span> + url);</span><br><span class="line">        <span class="keyword">if</span> (authClient.hasPermissionControl(url)) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;url指向非认证服务器，正在进行token检查&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (authClient.accessable(request)) &#123;</span><br><span class="line">                <span class="comment">//通过</span></span><br><span class="line">                log.info(<span class="string">&quot;token正确，转接服务&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> chain.filter(exchange);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//没通过</span></span><br><span class="line">            log.info(<span class="string">&quot;token不正确，正在返回身份验证出错提示&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> unauthorized(exchange);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//直接通过</span></span><br><span class="line">        log.info(<span class="string">&quot;url指向认证服务器，正在提供转接&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> chain.filter(exchange);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//身份验证出错</span></span><br><span class="line">    <span class="keyword">private</span> Mono&lt;Void&gt; <span class="title function_">unauthorized</span><span class="params">(ServerWebExchange serverWebExchange)</span> &#123;</span><br><span class="line">        serverWebExchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);</span><br><span class="line">        <span class="type">DataBuffer</span> <span class="variable">buffer</span> <span class="operator">=</span> serverWebExchange.getResponse()</span><br><span class="line">                .bufferFactory().wrap(HttpStatus.UNAUTHORIZED.getReasonPhrase().getBytes());</span><br><span class="line">        <span class="keyword">return</span> serverWebExchange.getResponse().writeWith(Flux.just(buffer));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getOrder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="过滤器执行顺序"><a href="#过滤器执行顺序" class="headerlink" title="过滤器执行顺序"></a>过滤器执行顺序</h2><p><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/image-20221018135153035.png" alt="image-20221018135153035"></p>
+<p>请求路由后，会将当前路由过滤器和DefaultFilter、GlobalFilter，合并到一个过滤器链（集合）中，排序后依次执行每个过滤器：</p>
+<p>排序的规则是什么呢？</p>
+<ul>
+<li>每一个过滤器都必须指定一个int类型的order值，<strong>order值越小，优先级越高，执行顺序越靠前</strong>。</li>
+<li>GlobalFilter通过实现Ordered接口，或者添加@Order注解来指定order值，由我们自己指定</li>
+<li>路由过滤器和defaultFilter的order由Spring指定，默认是按照声明顺序从1递增。</li>
+<li>当过滤器的order值一样时，会按照 defaultFilter &gt; 路由过滤器 &gt; GlobalFilter的顺序执行。</li>
+</ul>
+<h2 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">globalcors:</span></span><br><span class="line">  <span class="string">cors‐configurations:</span></span><br><span class="line">    <span class="string">&#x27;[/**]&#x27;</span><span class="string">:</span> <span class="comment"># 匹配所有请求</span></span><br><span class="line">      <span class="attr">allowedOrigins:</span> <span class="string">&quot;*&quot;</span> <span class="comment">#跨域处理 允许所有的域</span></span><br><span class="line">      <span class="attr">allowedMethods:</span> <span class="comment"># 支持的方法</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">GET</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">POST</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">PATCH</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">DELETE</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">PUT</span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">yasooh</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/10/17/%E4%B8%AD%E5%8C%BB%E7%A4%BE%E5%8C%BA%E7%B3%BB%E7%BB%9F%E6%95%B4%E7%90%86/">http://example.com/2022/10/17/%E4%B8%AD%E5%8C%BB%E7%A4%BE%E5%8C%BA%E7%B3%BB%E7%BB%9F%E6%95%B4%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">TQYSH</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/10/09/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">每日一题</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://typora-ysh.oss-cn-chengdu.aliyuncs.com/typora-img/QQ%E5%9B%BE%E7%89%8720221013163946.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">yasooh</div><div class="author-info__description">总要坚持点什么吧</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">微服务架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BD%93"><span class="toc-number">1.1.</span> <span class="toc-text">单体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">分布式架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.3.</span> <span class="toc-text">微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringCloud"><span class="toc-number">1.4.</span> <span class="toc-text">SpringCloud</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%86%E5%88%86%E4%B8%8E%E8%B0%83%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">拆分与调用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">3.</span> <span class="toc-text">Eureka注册中心</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nacos%E4%B8%8EEureka%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.</span> <span class="toc-text">Nacos与Eureka的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">5.</span> <span class="toc-text">Ribbon负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">5.0.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%96%E7%95%A5"><span class="toc-number">5.0.2.</span> <span class="toc-text">策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A5%A5%E9%A5%BF%E5%8A%A0%E8%BD%BD"><span class="toc-number">5.0.3.</span> <span class="toc-text">饥饿加载</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Feign%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">Feign远程调用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GateWay%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3"><span class="toc-number">7.</span> <span class="toc-text">GateWay服务网关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%AD%E8%A8%80%E5%B7%A5%E5%8E%82"><span class="toc-number">7.1.</span> <span class="toc-text">断言工厂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%B7%A5%E5%8E%82"><span class="toc-number">7.2.</span> <span class="toc-text">过滤器工厂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">7.3.</span> <span class="toc-text">过滤器执行顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-number">7.4.</span> <span class="toc-text">跨域问题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/17/%E4%B8%AD%E5%8C%BB%E7%A4%BE%E5%8C%BA%E7%B3%BB%E7%BB%9F%E6%95%B4%E7%90%86/" title="中医社区系统整理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="中医社区系统整理"/></a><div class="content"><a class="title" href="/2022/10/17/%E4%B8%AD%E5%8C%BB%E7%A4%BE%E5%8C%BA%E7%B3%BB%E7%BB%9F%E6%95%B4%E7%90%86/" title="中医社区系统整理">中医社区系统整理</a><time datetime="2022-10-17T07:19:32.000Z" title="发表于 2022-10-17 15:19:32">2022-10-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/09/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" title="每日一题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="每日一题"/></a><div class="content"><a class="title" href="/2022/10/09/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" title="每日一题">每日一题</a><time datetime="2022-10-09T07:23:32.000Z" title="发表于 2022-10-09 15:23:32">2022-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/01/%E9%9D%A2%E8%AF%95/" title="面试记录"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试记录"/></a><div class="content"><a class="title" href="/2022/10/01/%E9%9D%A2%E8%AF%95/" title="面试记录">面试记录</a><time datetime="2022-10-01T07:23:32.000Z" title="发表于 2022-10-01 15:23:32">2022-10-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/25/%E9%9A%8F%E6%83%B3%E5%BD%95/" title="随想"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="随想"/></a><div class="content"><a class="title" href="/2022/09/25/%E9%9A%8F%E6%83%B3%E5%BD%95/" title="随想">随想</a><time datetime="2022-09-25T07:23:32.000Z" title="发表于 2022-09-25 15:23:32">2022-09-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/15/%E7%BB%8F%E5%85%B8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E9%A2%98/" title="二分搜索"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二分搜索"/></a><div class="content"><a class="title" href="/2022/09/15/%E7%BB%8F%E5%85%B8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E9%A2%98/" title="二分搜索">二分搜索</a><time datetime="2022-09-15T07:23:32.000Z" title="发表于 2022-09-15 15:23:32">2022-09-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By yasooh</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
